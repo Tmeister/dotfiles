@@ -1,4 +1,4 @@
-vim.cmd [[highlight BufferlineOffset guifg = '#80a0ff' guibg = '#21222C']]
+-- vim.cmd [[highlight BufferlineOffset guifg = '#80a0ff' guibg = '#21222C']]
 
 require('bufferline').setup {
     options = {
@@ -16,7 +16,7 @@ require('bufferline').setup {
             left = function()
                 return {{
                     text = '    ',
-                    guifg = '#8fff6d'
+                    -- guifg = '#8fff6d'
                 }}
             end
         }
