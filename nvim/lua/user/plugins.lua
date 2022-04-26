@@ -6,6 +6,7 @@ packer.startup(function(use)
     use {'tpope/vim-surround'}
     use {'tpope/vim-sleuth'}
     use {'nelstrom/vim-visual-star-search'}
+    use {'jwalton512/vim-blade'}
 
     use {
         'sainnhe/gruvbox-material',
