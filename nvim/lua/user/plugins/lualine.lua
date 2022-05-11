@@ -1,7 +1,7 @@
 require('lualine').setup {
     options = {
         component_separators = '',
-        theme = 'gruvbox-material',
+        theme = 'onenord',
     },
     sections = {
         lualine_a = {'mode'},

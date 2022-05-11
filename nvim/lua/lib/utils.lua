@@ -19,4 +19,18 @@ M.buf_keymap = function(bufnr, mode, lhs, rhs, opts)
   )
 end
 
+M.signs = { Error = "", Warn = "", Hint = "", Info = "" }
+
+M.setSpacesSize = function(filetypes)
+    for filetype, size in pairs(filetypes) do
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = filetype,
+            callback = function()
+                vim.opt.shiftwidth = size
+                vim.opt.tabstop = size
+            end,
+        })
+    end
+end
+
 return M

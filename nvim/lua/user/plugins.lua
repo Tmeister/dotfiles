@@ -7,13 +7,19 @@ packer.startup(function(use)
     use {'tpope/vim-sleuth'}
     use {'nelstrom/vim-visual-star-search'}
     use {'jwalton512/vim-blade'}
-
     use {
-        'sainnhe/gruvbox-material',
+        "rmehri01/onenord.nvim",
         config = function()
-            require('user.plugins.gruvbox-material')
+            require('user.plugins.onenord')
         end
     }
+
+    -- use {
+    --     'sainnhe/gruvbox-material',
+    --     config = function()
+    --         require('user.plugins.gruvbox-material')
+    --     end
+    -- }
 
     use {
         'sickill/vim-pasta',
@@ -156,8 +162,8 @@ packer.startup(function(use)
         ft = 'php',
         run = 'composer install --no-dev -o',
         config = function()
-          require('user.plugins.phpactor')
+            require('user.plugins.phpactor')
         end
-      }
+    }
 
 end)

@@ -1,3 +1,5 @@
+local theme = require "user.theme"
+
 vim.o.expandtab = true
 vim.o.shiftwidth = 2
 vim.o.autoindent = true
@@ -29,3 +31,5 @@ vim.o.updatetime = 250          -- Decrease CursorHold delay
 vim.o.redrawtime = 10000        -- Allow more time for loading syntax on large files
 vim.o.showmode = false
 vim.o.fillchars = 'eob: '
+
+theme.init()
