@@ -53,7 +53,7 @@ alias nu='nvm use'
 alias sup='sail up -d'
 alias sdo='sail down'
 alias php7="brew link php@7.4 --force --overwrite"
-alias php8="brew unlink php && brew link php"
+alias php8="brew link php@8.1 --force --overwrite"
 alias vim="nvim"
 alias t="tmux"
 
