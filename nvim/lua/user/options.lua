@@ -15,7 +15,7 @@ vim.o.title = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.wildmode = 'longest:full,full'
-vim.o.wrap = false
+vim.o.wrap = true
 vim.o.list = true
 vim.o.listchars = 'tab:▸ ,trail:·'
 vim.o.mouse = 'a'
@@ -38,5 +38,13 @@ vim.api.nvim_command([[
         autocmd colorscheme * :hi normal guibg=none
     augroup END
 ]])
+
+vim.api.nvim_command([[
+    augroup TrimSpaces
+        autocmd BufWritePre * :%s/\s\+$//e
+    augroup END
+]])
+
 vim.o.termguicolors = true
+
 theme.init()
