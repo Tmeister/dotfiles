@@ -3,6 +3,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 export XDEBUG_SESSION=1
+export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=~/.composer/vendor/bin:$PATH
 export ZSH="/Users/tmeister/.oh-my-zsh"
