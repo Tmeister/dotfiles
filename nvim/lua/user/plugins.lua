@@ -9,6 +9,11 @@ packer.startup(function(use)
     use {'rafamadriz/friendly-snippets'}
     use {'saadparwaiz1/cmp_luasnip'}
     use {'jwalton512/vim-blade'}
+    use { "catppuccin/nvim", as = "catppuccin"}
+    use {
+        'prettier/vim-prettier',
+        ft = {'javascript', 'typescript', 'css', 'less', 'scss', 'graphql', 'markdown', 'vue', 'html', 'json', 'yaml', 'toml', 'yml', 'xml'},
+    }
     use {
         "rmehri01/onenord.nvim",
         config = function()

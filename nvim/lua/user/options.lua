@@ -1,4 +1,4 @@
-local theme = require "user.theme"
+-- local theme = require "user.theme"
 
 vim.o.expandtab = true
 vim.o.shiftwidth = 2
@@ -39,6 +39,7 @@ vim.api.nvim_command([[
     augroup END
 ]])
 
+-- On Save, delete trailing whitespace and format with Prettier
 vim.api.nvim_command([[
     augroup TrimSpaces
         autocmd BufWritePre * :%s/\s\+$//e
@@ -47,4 +48,9 @@ vim.api.nvim_command([[
 
 vim.o.termguicolors = true
 
-theme.init()
+--  Theme
+vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
+require("catppuccin").setup()
+vim.cmd [[colorscheme catppuccin]]
+
+-- theme.init()
