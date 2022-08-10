@@ -2,7 +2,6 @@ local buf_option = vim.api.nvim_buf_set_option
 local buf_keymap = require'lib.utils'.buf_keymap
 
 vim.diagnostic.config {
-    virtual_text = false,
     severity_sort = true,
     float = {
         source = true,
@@ -97,7 +96,7 @@ require'lspconfig'.intelephense.setup {
     },
     settings = {
         intelephense = {
-            stubs = { 
+            stubs = {
                 "bcmath",
                 "bz2",
                 "calendar",

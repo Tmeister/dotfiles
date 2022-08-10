@@ -11,22 +11,11 @@ packer.startup(function(use)
     use {'jwalton512/vim-blade'}
     use { "catppuccin/nvim", as = "catppuccin"}
     use {
-        'prettier/vim-prettier',
-        ft = {'javascript', 'typescript', 'css', 'less', 'scss', 'graphql', 'markdown', 'vue', 'html', 'json', 'yaml', 'toml', 'yml', 'xml'},
-    }
-    use {
         "rmehri01/onenord.nvim",
         config = function()
             require('user.plugins.onenord')
         end
     }
-
-    -- use {
-    --     'sainnhe/gruvbox-material',
-    --     config = function()
-    --         require('user.plugins.gruvbox-material')
-    --     end
-    -- }
 
     use {
         'sickill/vim-pasta',
@@ -53,6 +42,13 @@ packer.startup(function(use)
         'windwp/nvim-autopairs',
         config = function()
             require('nvim-autopairs').setup()
+        end
+    }
+
+    use {
+        'nvim-ts-autotag',
+        config = function()
+            require('nvim-ts-autotag').setup()
         end
     }
 
