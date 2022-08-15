@@ -15,7 +15,7 @@ vim.diagnostic.config {
     }
 }
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
     buf_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     buf_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
@@ -33,7 +33,19 @@ local on_attach = function(_, bufnr)
     buf_keymap(bufnr, 'n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>')
     buf_keymap(bufnr, 'n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
     buf_keymap(bufnr, 'n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>')
-    vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+    -- formatting
+    vim.cmd [[ command! Format execute 'Prettier' ]]
+    if client.server_capabilities.documentFormattingProvider then
+        vim.api.nvim_create_autocmd("BufWritePre ", {
+            group = vim.api.nvim_create_augroup("Format", {
+                clear = true
+            }),
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.formatting_sync()
+            end
+        })
+    end
 end
 
 require'lspconfig'.bashls.setup {
@@ -52,25 +64,25 @@ require'lspconfig'.dockerls.setup {
     }
 }
 
-require'lspconfig'.efm.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    flags = {
-        debounce_text_changes = 150
-    },
-    init_options = {
-        documentFormatting = true
-    },
-    filetypes = {'php'},
-    settings = {
-        rootMarkers = {'.git/'},
-        languages = {
-            php = {
-                lintCommand = './vendor/bin/phpstan analyze --error-format raw --no-progress'
-            }
-        }
-    }
-}
+-- require'lspconfig'.efm.setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     flags = {
+--         debounce_text_changes = 150
+--     },
+--     init_options = {
+--         documentFormatting = true
+--     },
+--     filetypes = {'php'},
+--     settings = {
+--         rootMarkers = {'.git/'},
+--         languages = {
+--             php = {
+--                 lintCommand = './vendor/bin/phpstan analyze --error-format raw --no-progress'
+--             }
+--         }
+--     }
+-- }
 
 require'lspconfig'.emmet_ls.setup {
     on_attach = on_attach,
@@ -96,71 +108,17 @@ require'lspconfig'.intelephense.setup {
     },
     settings = {
         intelephense = {
-            stubs = {
-                "bcmath",
-                "bz2",
-                "calendar",
-                "Core",
-                "curl",
-                "date",
-                "dba",
-                "dom",
-                "enchant",
-                "fileinfo",
-                "filter",
-                "ftp",
-                "gd",
-                "gettext",
-                "hash",
-                "iconv",
-                "imap",
-                "intl",
-                "json",
-                "ldap",
-                "libxml",
-                "mbstring",
-                "mcrypt",
-                "mysql",
-                "mysqli",
-                "password",
-                "pcntl",
-                "pcre",
-                "PDO",
-                "pdo_mysql",
-                "Phar",
-                "readline",
-                "recode",
-                "Reflection",
-                "regex",
-                "session",
-                "SimpleXML",
-                "soap",
-                "sockets",
-                "sodium",
-                "SPL",
-                "standard",
-                "superglobals",
-                "sysvsem",
-                "sysvshm",
-                "tokenizer",
-                "xml",
-                "xdebug",
-                "xmlreader",
-                "xmlwriter",
-                "yaml",
-                "zip",
-                "zlib",
-                "wordpress",
-                "woocommerce",
-                "acf-pro",
-                "wordpress-globals",
-                "wp-cli",
-                "polylang"
-            },
+            stubs = {"bcmath", "bz2", "calendar", "Core", "curl", "date", "dba", "dom", "enchant", "fileinfo", "filter",
+                     "ftp", "gd", "gettext", "hash", "iconv", "imap", "intl", "json", "ldap", "libxml", "mbstring",
+                     "mcrypt", "mysql", "mysqli", "password", "pcntl", "pcre", "PDO", "pdo_mysql", "Phar", "readline",
+                     "recode", "Reflection", "regex", "session", "SimpleXML", "soap", "sockets", "sodium", "SPL",
+                     "standard", "superglobals", "sysvsem", "sysvshm", "tokenizer", "xml", "xdebug", "xmlreader",
+                     "xmlwriter", "yaml", "zip", "zlib", "wordpress", "woocommerce", "acf-pro", "wordpress-globals",
+                     "wp-cli", "polylang"},
             files = {
-                maxSize = 5000000;
-            };
-        };
+                maxSize = 5000000
+            }
+        }
     },
     root_dir = require'lspconfig'.util.root_pattern("wp-config.php", "composer.json", ".git")
 }
@@ -222,6 +180,7 @@ require'lspconfig'.vuels.setup {
                 templateProps = true,
                 interpolation = true
             },
+            ignoreProjectWarning = true
         }
     },
     root_dir = require'lspconfig'.util.root_pattern('package.json', 'yarn.lock')

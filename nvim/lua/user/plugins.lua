@@ -9,12 +9,31 @@ packer.startup(function(use)
     use {'rafamadriz/friendly-snippets'}
     use {'saadparwaiz1/cmp_luasnip'}
     use {'jwalton512/vim-blade'}
-    use { "catppuccin/nvim", as = "catppuccin"}
+    use {
+        'github/copilot.vim',
+        config = function()
+            vim.g.copilot_no_tab_map = true
+            vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', {
+                silent = true,
+                expr = true
+            })
+        end
+    }
+    use {
+        "catppuccin/nvim",
+        as = "catppuccin"
+    }
     use {
         "rmehri01/onenord.nvim",
         config = function()
             require('user.plugins.onenord')
         end
+    }
+
+    use {
+        'prettier/vim-prettier',
+        ft = {'javascript', 'typescript', 'css', 'less', 'scss', 'graphql', 'markdown', 'vue', 'html', 'json', 'yaml',
+              'toml', 'yml', 'xml'}
     }
 
     use {
@@ -46,7 +65,7 @@ packer.startup(function(use)
     }
 
     use {
-        'nvim-ts-autotag',
+        'windwp/nvim-ts-autotag',
         config = function()
             require('nvim-ts-autotag').setup()
         end

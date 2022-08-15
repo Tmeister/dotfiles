@@ -1,5 +1,4 @@
 -- local theme = require "user.theme"
-
 vim.o.expandtab = true
 vim.o.shiftwidth = 2
 vim.o.autoindent = true
@@ -27,8 +26,8 @@ vim.o.clipboard = 'unnamedplus' -- Use Linux system clipboard
 vim.o.confirm = true
 vim.o.backup = true
 vim.o.backupdir = vim.fn.stdpath 'data' .. '/backup//'
-vim.o.updatetime = 250          -- Decrease CursorHold delay
-vim.o.redrawtime = 10000        -- Allow more time for loading syntax on large files
+vim.o.updatetime = 250 -- Decrease CursorHold delay
+vim.o.redrawtime = 10000 -- Allow more time for loading syntax on large files
 vim.o.showmode = false
 vim.o.fillchars = 'eob: '
 
@@ -50,7 +49,7 @@ vim.o.termguicolors = true
 
 --  Theme
 vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
-require("catppuccin").setup()
+require("nvim.lua.user.plugins.catppuccin")
 vim.cmd [[colorscheme catppuccin]]
 
 -- theme.init()
