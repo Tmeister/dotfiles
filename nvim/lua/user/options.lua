@@ -49,7 +49,7 @@ vim.o.termguicolors = true
 
 --  Theme
 vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
-require("nvim.lua.user.plugins.catppuccin")
+require("user.plugins.catppuccin")
 vim.cmd [[colorscheme catppuccin]]
 
 -- theme.init()

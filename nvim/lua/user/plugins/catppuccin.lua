@@ -1,13 +1,13 @@
 require("catppuccin").setup({
     styles = {
-        comments = {"italic", "bold"},
+        comments = {"italic"},
         conditionals = {"italic", "bold"},
         loops = {},
         functions = {"italic", "bold"},
         keywords = {"italic", "bold"},
         strings = {},
         variables = {},
-        numbers = {"bold"},
+        numbers = {},
         booleans = {},
         properties = {"italic"},
         types = {},
