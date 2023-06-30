@@ -48,6 +48,8 @@ local on_attach = function(client, bufnr)
     end
 end
 
+require'lspconfig'.astro.setup{}
+
 require'lspconfig'.bashls.setup {
     on_attach = on_attach,
     capabilities = capabilities,

@@ -57,6 +57,7 @@ alias php7="brew link php@7.4 --force --overwrite"
 alias php8="brew link php@8.1 --force --overwrite"
 alias vim="nvim"
 alias t="tmux"
+alias pw="tsession"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

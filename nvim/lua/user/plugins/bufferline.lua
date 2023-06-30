@@ -45,87 +45,87 @@ require('bufferline').setup {
     },
     highlights = {
         fill = {
-            guifg = colors.fg,
-            guibg = colors.grey19
+            fg = colors.fg,
+            bg = colors.grey19
         },
         background = {
-            guifg = colors.fg,
-            guibg = colors.grey12
+            fg = colors.fg,
+            bg = colors.grey12
         },
         buffer_visible = {
-            guifg = colors.fg,
-            guibg = colors.grey12
+            fg = colors.fg,
+            bg = colors.grey12
         },
         buffer_selected = {
-            gui = "bold",
-            guifg = colors.fg,
-            guibg = colors.bg
+            fg = colors.fg,
+            bg = colors.bg,
+            bold = true
         },
         separator = {
-            guifg = colors.cyan,
-            guibg = colors.bg
+            fg = colors.cyan,
+            bg = colors.bg
         },
         separator_selected = {
-            guifg = colors.cyan,
-            guibg = colors.bg
+            fg = colors.cyan,
+            bg = colors.bg
         },
         separator_visible = {
-            guifg = colors.cyan,
-            guibg = colors.bg
+            fg = colors.cyan,
+            bg = colors.bg
         },
         close_button = {
-            guifg = colors.fg,
-            guibg = colors.grey12
+            fg = colors.fg,
+            bg = colors.grey12
         },
         close_button_selected = {
-            guifg = {
+            fg = {
                 attribute = "fg",
                 highlight = "normal"
             },
-            guibg = {
+            bg = {
                 attribute = "bg",
                 highlight = "normal"
             }
         },
         close_button_visible = {
-            guifg = {
+            fg = {
                 attribute = "fg",
                 highlight = "normal"
             },
-            guibg = {
+            bg = {
                 attribute = "bg",
                 highlight = "normal"
             }
         },
         duplicate = {
-            guifg = colors.grey9,
-            guibg = colors.grey12
+            fg = colors.grey9,
+            bg = colors.grey12
         },
         duplicate_selected = {
-            guifg = colors.grey9,
-            gui = "italic",
-            guibg = colors.bg
+            fg = colors.grey9,
+            italic = true,
+            bg = colors.bg
         },
         duplicate_visible = {
-            guifg = colors.grey9,
-            gui = "italic",
-            guibg = colors.grey12
+            fg = colors.grey9,
+            italic = true,
+            bg = colors.grey12
         },
         indicator_selected = {
-            guifg = colors.cyan,
-            guibg = colors.bg
+            fg = colors.cyan,
+            bg = colors.bg
         },
         modified = {
-            guifg = colors.grey11,
-            guibg = colors.grey12
+            fg = colors.grey11,
+            bg = colors.grey12
         },
         modified_visible = {
-            guifg = colors.grey11,
-            guibg = colors.grey12
+            fg = colors.grey11,
+            bg = colors.grey12
         },
         modified_selected = {
-            guifg = colors.grey10,
-            guibg = colors.bg
+            fg = colors.grey10,
+            bg = colors.bg
         }
     }
 }
