@@ -57,11 +57,14 @@ alias php7="brew link php@7.4 --force --overwrite"
 alias php8="brew link php@8.1 --force --overwrite"
 alias vim="nvim"
 alias t="tmux"
-alias pw="tsession"
+alias pw="~/.dotfiles/scripts/tmux-sessionizer"
+alias vstart="valet start && brew services start mariadb"
+alias vstop="valet stop && brew services stop mariadb"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
