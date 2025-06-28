@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Fix core process layout to match SOP structure exactly",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Remove duplicate headings in tab content",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Fix metadata panel to show proper content",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Ensure full width utilization",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Update VisualTabContentProps interface to accept activities data",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Remove HTML content display logic and create activity grouping logic",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Implement visual design with category sections and activity boxes",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Add RACI information display and arrow connectors",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Implement interactivity (click handlers and hover effects)",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Add insights section and empty state",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Update show.tsx to pass activities to VisualTabContent",
+    "status": "completed",
+    "priority": "high",
+    "id": "7"
+  }
+]

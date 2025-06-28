@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Read project README and documentation files",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Explore main application structure and models",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Review frontend architecture and components",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Check database structure and migrations",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Review testing setup and current features",
+    "status": "completed",
+    "priority": "low",
+    "id": "5"
+  }
+]

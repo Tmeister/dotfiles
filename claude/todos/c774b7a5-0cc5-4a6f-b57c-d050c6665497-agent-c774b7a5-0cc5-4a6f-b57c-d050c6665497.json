@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Create GitHub Actions release workflow for npm publishing",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Commit CI and release workflows",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Set up npm token in GitHub secrets",
+    "status": "pending",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Test automated publishing workflow",
+    "status": "pending",
+    "priority": "medium",
+    "id": "4"
+  }
+]

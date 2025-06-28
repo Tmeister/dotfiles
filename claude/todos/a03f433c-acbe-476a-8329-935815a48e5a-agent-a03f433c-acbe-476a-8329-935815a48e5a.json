@@ -1,0 +1,74 @@
+[
+  {
+    "content": "Create migration for business_process_activity_categories table",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create migration to add activity_category_id to business_process_activities table",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Create BusinessProcessActivityCategory model",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update BusinessProcessCore and BusinessProcessActivity models with relationships",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Enhance HtmlParser trait with category parsing logic",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Add importHtmlToRaci method to ProcessCoreController",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Add new route for RACI HTML import",
+    "status": "completed",
+    "priority": "high",
+    "id": "7"
+  },
+  {
+    "content": "Update TypeScript types for categories",
+    "status": "completed",
+    "priority": "medium",
+    "id": "8"
+  },
+  {
+    "content": "Update BusinessProcessActivitiesCard with import button and grouped display",
+    "status": "completed",
+    "priority": "medium",
+    "id": "9"
+  },
+  {
+    "content": "Enhance HtmlImportDialog to support RACI import mode",
+    "status": "completed",
+    "priority": "medium",
+    "id": "10"
+  },
+  {
+    "content": "Update VisualTabContent to display imported HTML content",
+    "status": "completed",
+    "priority": "low",
+    "id": "11"
+  },
+  {
+    "content": "Test the complete import workflow",
+    "status": "completed",
+    "priority": "medium",
+    "id": "12"
+  }
+]

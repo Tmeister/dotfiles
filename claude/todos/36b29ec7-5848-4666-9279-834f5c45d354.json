@@ -1,0 +1,56 @@
+[
+  {
+    "content": "Set up testing infrastructure with Vitest and dependencies",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create test configuration files",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Write unit tests for JWTPro main class",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Write unit tests for storage adapters",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Write unit tests for utilities (environment, fetch, logger)",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Write unit tests for event system and interceptors",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Write integration tests for component interactions",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Write functional tests for authentication workflows",
+    "status": "completed",
+    "priority": "medium",
+    "id": "8"
+  },
+  {
+    "content": "Set up test scripts and CI configuration",
+    "status": "completed",
+    "priority": "low",
+    "id": "9"
+  }
+]

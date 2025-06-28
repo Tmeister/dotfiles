@@ -1,0 +1,50 @@
+[
+  {
+    "content": "Wait for Vite project initialization (package.json must exist)",
+    "status": "pending",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Install TailwindCSS dependencies: npm install -D tailwindcss postcss autoprefixer",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Initialize Tailwind: npx tailwindcss init -p",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Configure tailwind.config.js to include React files in content array",
+    "status": "pending",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Update src/index.css to include Tailwind directives",
+    "status": "pending",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Install ShadCN CLI: npx shadcn-ui@latest init",
+    "status": "pending",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Configure ShadCN with TypeScript, TailwindCSS, and appropriate settings",
+    "status": "pending",
+    "priority": "high",
+    "id": "7"
+  },
+  {
+    "content": "Install basic ShadCN components: npx shadcn-ui@latest add button card input label",
+    "status": "pending",
+    "priority": "high",
+    "id": "8"
+  }
+]

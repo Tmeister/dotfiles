@@ -2,27 +2,31 @@
 # It creates a new tmux session with the name of the selected directory.
 # Taken from https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/bin/tmux-sessionizer
 
+# Check if tmux is running, if not start a new session
+if ! pgrep -x "tmux" >/dev/null; then
+  tmux new-session -d -s "default"
+fi
+
 if [[ $# -eq 1 ]]; then
-	selected=$1
+  selected=$1
 else
-	# I need to clean up this folders
-	selected=$(find ~/Local\ Sites ~/Code/Sites ~/Code/Personal ~/Code/Clients/acquira ~/Code/Clients/aureacode -mindepth 1 -maxdepth 1 -type d | fzf)
+  # I need to clean up this folders
+  selected=$(find ~/Local\ Sites ~/Code/Sites ~/Code/Personal ~/Code/Clients/acquira ~/Code/Clients/aureacode ~/Code/Clients/forte -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
-	exit 0
+  exit 0
 fi
 
 selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
-
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-	tmux new-session -s $selected_name -c $selected
-	exit 0
-fi
 
 if ! tmux has-session -t=$selected_name 2>/dev/null; then
-	tmux new-session -ds $selected_name -c $selected
+  tmux new-session -ds $selected_name -c $selected
 fi
 
-tmux switch-client -t $selected_name
+# If we're not in a tmux session, attach to the selected session
+if [[ -z $TMUX ]]; then
+  tmux attach-session -t $selected_name
+else
+  tmux switch-client -t $selected_name
+fi

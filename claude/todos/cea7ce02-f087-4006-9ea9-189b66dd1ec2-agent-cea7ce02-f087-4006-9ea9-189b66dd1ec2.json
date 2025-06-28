@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Run npm link in the JWT library directory",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Provide instructions for linking in other projects",
+    "status": "completed",
+    "priority": "medium",
+    "id": "2"
+  }
+]

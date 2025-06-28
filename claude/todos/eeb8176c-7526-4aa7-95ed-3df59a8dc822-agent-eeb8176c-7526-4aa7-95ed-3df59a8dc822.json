@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Analyze IDE integration and constant definition issues",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Check for Intelephense configuration files",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Review WordPress constants and custom constants",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Create or update IDE configuration to suppress false warnings",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

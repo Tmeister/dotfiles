@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Add license environment variable support to wp-env",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update Bruno tests to work with licensed endpoints",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Document license setup for team",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Update GitHub Actions workflow for license testing",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

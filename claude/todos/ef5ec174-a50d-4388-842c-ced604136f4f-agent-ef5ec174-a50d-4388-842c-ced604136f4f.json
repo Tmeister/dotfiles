@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Update extractCleanHtmlWithStyles to remove .body CSS rules",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update controller to override existing visual content instead of creating versions",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Test the import to ensure .body styles are removed and content is stored correctly",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

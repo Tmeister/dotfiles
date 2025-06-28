@@ -1,0 +1,2 @@
+- Do not add your signature to the commit messages
+- Never use ENUM fields on the database, always use either text or tinyints, but never enums

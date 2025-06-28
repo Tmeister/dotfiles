@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Update playwright.config.ts to use jwt.test instead of wp-env",
+    "status": "completed",
+    "priority": "high",
+    "id": "update-playwright-config"
+  },
+  {
+    "content": "Update package.json e2e test scripts to remove wp-env dependency",
+    "status": "completed",
+    "priority": "high",
+    "id": "update-package-scripts"
+  },
+  {
+    "content": "Update test helpers for new top navigation selectors",
+    "status": "completed",
+    "priority": "high",
+    "id": "update-test-helpers"
+  },
+  {
+    "content": "Fix test selectors for UI changes (sidebar to top nav)",
+    "status": "completed",
+    "priority": "medium",
+    "id": "fix-test-selectors"
+  },
+  {
+    "content": "Update content expectations for new page titles and sections",
+    "status": "completed",
+    "priority": "medium",
+    "id": "update-content-expectations"
+  },
+  {
+    "content": "Fix authentication credentials for jwt.test environment",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-auth-credentials"
+  },
+  {
+    "content": "Run and verify e2e tests work against jwt.test",
+    "status": "completed",
+    "priority": "high",
+    "id": "verify-tests-work"
+  }
+]

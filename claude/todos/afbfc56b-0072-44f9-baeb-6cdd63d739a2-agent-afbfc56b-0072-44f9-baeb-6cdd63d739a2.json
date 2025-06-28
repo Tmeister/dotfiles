@@ -1,0 +1,74 @@
+[
+  {
+    "content": "Fix tests to match actual database schema (integer status, correct fillables)",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create tests for content versioning system with integer status",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Create tests for content relationships (blueprints, guides)",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Create tests for SuperAdmin vs Regular User access control",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Create tests for new business process hierarchy",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Remove legacy setAsCurrent/setAsArchived methods from model",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Remove tests for unused legacy methods",
+    "status": "completed",
+    "priority": "high",
+    "id": "7"
+  },
+  {
+    "content": "Fix remaining relationship test issues",
+    "status": "completed",
+    "priority": "medium",
+    "id": "8"
+  },
+  {
+    "content": "Fix BusinessProcessHierarchyTest unique constraint violations",
+    "status": "completed",
+    "priority": "high",
+    "id": "9"
+  },
+  {
+    "content": "Fix BusinessProcessAuthorizationTest role creation conflicts",
+    "status": "pending",
+    "priority": "low",
+    "id": "10"
+  },
+  {
+    "content": "Fix BusinessProcessContentRelationshipsTest model method issues",
+    "status": "completed",
+    "priority": "medium",
+    "id": "11"
+  },
+  {
+    "content": "Create migration to add blueprint/guide/form to content types enum",
+    "status": "completed",
+    "priority": "high",
+    "id": "12"
+  }
+]

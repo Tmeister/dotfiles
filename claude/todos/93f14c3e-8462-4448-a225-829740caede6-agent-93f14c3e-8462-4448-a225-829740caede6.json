@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Audit all controllers for missing policies",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Check what models are being authorized",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Verify all policies are registered",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Create any missing policies",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

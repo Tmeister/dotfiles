@@ -1,0 +1,50 @@
+[
+  {
+    "content": "Add clsx import and standardize border radius to rounded-lg",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Fix header cells (Step x) to match activity card heights",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Improve activity card layout with space-between for content alignment",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Remove all style attributes and use only Tailwind classes",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Add clsx for conditional class merging",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Standardize spacing and padding patterns",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Improve button styling consistency",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Clean up debug logging for production",
+    "status": "completed",
+    "priority": "low",
+    "id": "8"
+  }
+]

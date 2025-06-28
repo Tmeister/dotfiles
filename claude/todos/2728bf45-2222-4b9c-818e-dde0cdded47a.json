@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Fix CodeBlock usage in solutions page - React authentication example (line 120)",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-solutions-codeblock-1"
+  },
+  {
+    "content": "Fix CodeBlock usage in solutions page - WooCommerce integration example (line 275)",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-solutions-codeblock-2"
+  },
+  {
+    "content": "Fix CodeBlock usage in solutions page - Vue.js SPA authentication example (line 434)",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-solutions-codeblock-3"
+  },
+  {
+    "content": "Fix CodeBlock usage in support page - secret key configuration example (line 193)",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-support-codeblock-1"
+  },
+  {
+    "content": "Fix CodeBlock usage in support page - Apache .htaccess configuration (line 209)",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-support-codeblock-2"
+  },
+  {
+    "content": "Fix CodeBlock usage in support page - JavaScript token refresh example (line 223)",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-support-codeblock-3"
+  }
+]

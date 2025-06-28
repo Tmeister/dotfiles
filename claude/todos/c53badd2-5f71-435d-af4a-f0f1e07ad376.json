@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Rename JWTAuthClient.ts to JWTPro.ts",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update import path in index.ts",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Verify build works with new file name",
+    "status": "pending",
+    "priority": "medium",
+    "id": "3"
+  }
+]

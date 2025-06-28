@@ -1,0 +1,62 @@
+[
+  {
+    "content": "Create main /user:setup-laravel command with project detection logic",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Implement project analysis system (Laravel version, packages, frontend stack detection)",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Generate adaptive permission system with security-first approach",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Create intelligent CLAUDE.md documentation generator",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Build 15 Laravel-specific slash commands (feature generation, optimization, security, testing)",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Set up advanced directory structure with templates and workflows",
+    "status": "in_progress",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Create team collaboration configuration system (shared vs local settings)",
+    "status": "pending",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Generate comprehensive documentation and setup guides",
+    "status": "pending",
+    "priority": "low",
+    "id": "8"
+  },
+  {
+    "content": "Implement validation and testing system for generated setup",
+    "status": "pending",
+    "priority": "medium",
+    "id": "9"
+  },
+  {
+    "content": "Create maintenance and update scripts for ongoing management",
+    "status": "pending",
+    "priority": "low",
+    "id": "10"
+  }
+]
