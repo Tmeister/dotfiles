@@ -4,5 +4,7 @@ claude/*
 # But don't ignore commands folder and .settings.json
 !claude/commands/
 !claude/commands/**
+!claude/agents/
+!claude/agents/**
 !claude/.settings.json
 .DS_Store
