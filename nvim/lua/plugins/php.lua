@@ -16,10 +16,8 @@ return {
             ["language_server_php_cs_fixer.enabled"] = false,
             -- Ignore docblock-related diagnostic codes
             ["language_server.diagnostic_ignore_codes"] = {
-              "missing_param",
-              "missing_return",
-              "missing_method",
-              "missing_property",
+              "worse.docblock_missing_param",
+              "worse.docblock_missing_return",
             },
           },
         },
@@ -27,3 +25,4 @@ return {
     },
   },
 }
+
