@@ -48,11 +48,11 @@ vim.keymap.set("v", "<C-s>", "<Esc><cmd>w<cr>", { desc = "Save file" })
 -- Delete word backward (Option+Backspace)
 vim.keymap.set("i", "<A-BS>", "<C-w>", { desc = "Delete word backward" })
 
--- Move to beginning/end of line
-vim.keymap.set("i", "<A-Left>", "<C-o>^", { desc = "Move to beginning of line" })
-vim.keymap.set("i", "<A-Right>", "<C-o>$", { desc = "Move to end of line" })
-vim.keymap.set("n", "<A-Left>", "^", { desc = "Move to beginning of line" })
-vim.keymap.set("n", "<A-Right>", "$", { desc = "Move to end of line" })
+-- Shift+Arrow for beginning/end of line
+vim.keymap.set("i", "<S-Left>", "<C-o>^", { desc = "Move to beginning of line" })
+vim.keymap.set("i", "<S-Right>", "<C-o>$", { desc = "Move to end of line" })
+vim.keymap.set("n", "<S-Left>", "^", { desc = "Move to beginning of line" })
+vim.keymap.set("n", "<S-Right>", "$", { desc = "Move to end of line" })
 
 -- Move word by word
 vim.keymap.set("i", "<A-b>", "<C-o>b", { desc = "Move word backward" })
@@ -127,3 +127,7 @@ vim.keymap.set("n", "<A-S-Right>", "<cmd>vertical resize +2<cr>", { desc = "Incr
 vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 
+-- Change/delete without yanking (using black hole register)
+vim.keymap.set("n", "c", '"_c', { desc = "Change without yank" })
+vim.keymap.set("n", "C", '"_C', { desc = "Change to end of line without yank" })
+vim.keymap.set("v", "c", '"_c', { desc = "Change without yank" })
