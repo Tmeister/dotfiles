@@ -33,7 +33,7 @@ yabai -m config \
   split_ratio 0.50 \
   split_type auto \
   auto_balance off \
-  top_padding 16 bottom_padding 16 \
+  top_padding 56 bottom_padding 16 \
   left_padding 16 \
   right_padding 16 \
   window_gap 16 \
@@ -148,8 +148,19 @@ yabai -m rule --add title="^(Select|Choose|Pick)" manage=off
 yabai -m rule --add title="(Copy|Move|Delete|Rename)" manage=off
 yabai -m rule --add title="^(Alert|Warning|Error|Confirm)" manage=off
 
+# PHPStorm specific rules (must come before general rules)
+yabai -m rule --add app="^PhpStorm$" title="^Welcome to PhpStorm$" manage=on
+yabai -m rule --add app="^PhpStorm$" title="^Open Project$" manage=on
+yabai -m rule --add app="^PhpStorm$" title=".*" manage=on  # All PHPStorm windows are tiled by default
+yabai -m rule --add app="^PhpStorm$" subrole="^AXDialog$" manage=off  # Except dialogs
+yabai -m rule --add app="^PhpStorm$" subrole="^AXFloatingWindow$" manage=off  # And floating windows
+
 # Float windows that are typically small
 yabai -m rule --add app=".*" title="^$" manage=off  # Windows with no title
+
+# IntelliJ-based IDEs (WebStorm, PyCharm, etc.)
+yabai -m rule --add app="^(IntelliJ IDEA|WebStorm|PyCharm|RubyMine|GoLand|CLion|Rider|DataGrip)$" title="^Welcome to" manage=on
+yabai -m rule --add app="^(IntelliJ IDEA|WebStorm|PyCharm|RubyMine|GoLand|CLion|Rider|DataGrip)$" title="^Open Project$" manage=on
 
 # Float specific problematic child windows
 yabai -m rule --add app="^Finder$" title="(Copy|Move|Delete|Info|Connect)" manage=off
