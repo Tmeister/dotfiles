@@ -1,0 +1,71 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$fill\
+$lua\
+$ocaml\
+$nodejs\
+$php\
+$python\
+$ruby\
+$rust\
+$solidity\
+$vagrant\
+$cmd_duration\
+$line_break\
+$character"""
+
+command_timeout = 1000
+
+[fill]
+symbol = ' '
+
+[php]
+format = "[$symbol($version )]($style) "
+
+[nodejs]
+format = "[$symbol($version )]($style) "
+
+[character]
+success_symbol = "[💠](green)"
+error_symbol = "[💀](red)"
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style) "
+style = "purple"
+
+[jobs]
+symbol = ""
+style = "bold red"
+number_threshold = 1
+format = "[$symbol]($style)"
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+ahead = '⇡ ${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+behind = '⇣ ${count}'
+style = "green"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "purple"
+
+[git_metrics]
+disabled = false
+
+[cmd_duration]
+format = "[$duration]($style)"
+style = "yellow"
+
+[rust]
+symbol = " "
