@@ -1,0 +1,36 @@
+# Tailwind CSS Dark Theme for Ghostty
+# Based on the Tailwind CSS VS Code Dark theme
+# Created from tailwindcss-vscode-theme extension
+
+# Background and foreground
+background = #1d293d
+foreground = #f8fafc
+
+# Cursor colors
+cursor-color = #f8fafc
+cursor-text = #1d293d
+
+# Selection colors
+selection-background = #3f4a56
+selection-foreground = #f8fafc
+
+# ANSI color palette (0-15)
+# Standard colors
+palette = 0=#ffffff
+palette = 1=#ff637e
+palette = 2=#00d492  
+palette = 3=#ffb900
+palette = 4=#2b7fff
+palette = 5=#c27aff
+palette = 6=#00d3f3
+palette = 7=#cad5e2
+
+# Bright colors
+palette = 8=#90a1b9
+palette = 9=#ff637e
+palette = 10=#5ee9b5
+palette = 11=#ffd230
+palette = 12=#51a2ff
+palette = 13=#dab2ff
+palette = 14=#53eafd
+palette = 15=#ffffff

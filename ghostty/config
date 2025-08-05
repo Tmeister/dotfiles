@@ -1,0 +1,44 @@
+# theme = tailwind-dark-enhanced
+theme = tokyonight_moon
+font-family = Cascadia Code
+#font-family = JetBrains Mono
+font-size = 15
+background-opacity = 1
+background-blur = 20
+window-padding-x = 24
+adjust-cell-height = 75%
+cursor-invert-fg-bg = true
+cursor-style = block
+cursor-style-blink = true
+cursor-click-to-move = true
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+window-padding-balance = true
+macos-titlebar-style = transparent
+
+# background-image = "/Users/tmeister/Library/CloudStorage/Dropbox/wallpapers/walls-catppuccin-mocha/bunnies-road.png"
+# background-image = "/Users/tmeister/Library/CloudStorage/Dropbox/wallpapers/walls-catppuccin-mocha/car-wreck.png"
+# background-image = "/Users/tmeister/Library/CloudStorage/Dropbox/wallpapers/walls-catppuccin-mocha/dark-waves.jpg"
+
+
+# background-image-opacity = 0.15
+# background-image-fit = cover
+
+# Enable bold text to use bright colors
+bold-is-bright = true
+
+# Optional: Font thickening for better visual distinction (macOS only)
+font-thicken = true
+font-thicken-strength = 50
+
+keybind = cmd+right=text:\x05
+keybind = cmd+left=text:\x01
+keybind = cmd+backspace=text:\x15
+keybind = opt+backspace=text:\x17
+keybind = opt+\=new_split:right
+keybind = opt+-=new_split:down
+keybind = opt+y=goto_split:left
+keybind = opt+l=goto_split:right
+keybind = opt+j=goto_split:down
+keybind = opt+k=goto_split:up
+keybind = shift+enter=text:\n

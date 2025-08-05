@@ -18,6 +18,8 @@ return {
             ["language_server.diagnostic_ignore_codes"] = {
               "worse.docblock_missing_param",
               "worse.docblock_missing_return",
+              "docblock_missing_param",
+              "docblock_missing_return",
             },
           },
         },
@@ -25,4 +27,3 @@ return {
     },
   },
 }
-

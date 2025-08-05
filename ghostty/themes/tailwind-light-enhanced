@@ -1,0 +1,36 @@
+# Tailwind CSS Light Enhanced Theme for Ghostty
+# Based on the Tailwind CSS VS Code Light Enhanced theme
+# Created from tailwindcss-vscode-theme extension
+
+# Background and foreground
+background = #ffffff
+foreground = #1d293d
+
+# Cursor colors
+cursor-color = #314158
+cursor-text = #ffffff
+
+# Selection colors
+selection-background = #bdd7ff
+selection-foreground = #1d293d
+
+# ANSI color palette (0-15)
+# Standard colors
+palette = 0=#000000
+palette = 1=#c70036
+palette = 2=#009966
+palette = 3=#e17100
+palette = 4=#1447e6
+palette = 5=#8200db
+palette = 6=#0092b8
+palette = 7=#90a1b9
+
+# Bright colors
+palette = 8=#45556c
+palette = 9=#ec003f
+palette = 10=#00bc7d
+palette = 11=#fe9a00
+palette = 12=#155dfc
+palette = 13=#9810fa
+palette = 14=#00b8db
+palette = 15=#000000
