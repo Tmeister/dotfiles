@@ -7,4 +7,10 @@ claude/*
 !claude/agents/
 !claude/agents/**
 !claude/.settings.json
+!claude/CLAUDE.md
+!claude/my-preferences.md
+!claude/project-styles.md
+!claude/styles
+!claude/styles/**
+!claude/switch-style.sh
 .DS_Store

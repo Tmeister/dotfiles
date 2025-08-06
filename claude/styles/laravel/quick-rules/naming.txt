@@ -1,0 +1,6 @@
+Controllers: PostsController (plural)
+Routes: /open-source (kebab), ->name('openSource') (camel)
+Commands: delete-old-records (kebab)
+Config files: pdf-generator.php (kebab)
+Config keys: chrome_path (snake)
+Validation: organisation_type (snake)
