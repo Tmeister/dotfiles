@@ -1,7 +1,7 @@
 # theme = tailwind-dark-enhanced
 theme = tokyonight_moon
-font-family = Cascadia Code
-#font-family = JetBrains Mono
+#font-family = Cascadia Code
+font-family = JetBrains Mono
 font-size = 15
 background-opacity = 1
 background-blur = 20
