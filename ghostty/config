@@ -1,8 +1,7 @@
 # theme = tailwind-dark-enhanced
 theme = tokyonight_moon
-#font-family = Cascadia Code
 font-family = JetBrains Mono
-font-size = 15
+font-size = 14
 background-opacity = 1
 background-blur = 20
 window-padding-x = 24
@@ -15,6 +14,9 @@ mouse-hide-while-typing = true
 mouse-scroll-multiplier = 2
 window-padding-balance = true
 macos-titlebar-style = transparent
+title = " "
+macos-titlebar-proxy-icon = hidden
+
 
 # background-image = "/Users/tmeister/Library/CloudStorage/Dropbox/wallpapers/walls-catppuccin-mocha/bunnies-road.png"
 # background-image = "/Users/tmeister/Library/CloudStorage/Dropbox/wallpapers/walls-catppuccin-mocha/car-wreck.png"

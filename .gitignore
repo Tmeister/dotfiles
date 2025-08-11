@@ -12,5 +12,6 @@ claude/*
 !claude/project-styles.md
 !claude/styles
 !claude/styles/**
-!claude/switch-style.sh
+!claude/hooks
+!claude/hooks/**
 .DS_Store
