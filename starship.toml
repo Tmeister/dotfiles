@@ -36,7 +36,7 @@ format = "[$symbol($version )]($style) "
 
 [character]
 success_symbol = "[🚀](green)"
-error_symbol = "[💀](red)"
+error_symbol = "[💀](white)"
 
 [git_branch]
 symbol = " "
