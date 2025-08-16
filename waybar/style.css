@@ -100,9 +100,9 @@ window#waybar.hidden {
 }
 
 #workspaces button.active {
-  background: alpha(@surface2, 0.7);
-  color: @subtext1;
-  box-shadow: 0 2px 4px alpha(@crust, 0.2);
+  background: alpha(@blue, 0.3);
+  color: @blue;
+  box-shadow: 0 2px 4px alpha(@blue, 0.2);
 }
 
 #workspaces button.urgent {
