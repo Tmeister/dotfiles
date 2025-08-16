@@ -2,7 +2,7 @@
   "reload_style_on_change": true,
   "layer": "top",
   "position": "top",
-  "spacing": 0,
+  "spacing": 4,
   "height": 28,
   "modules-left": [
     "custom/omarchy",
@@ -13,7 +13,7 @@
     "custom/update"
   ],
   "modules-right": [
-    "tray",
+    "group/tray-expander",
     "bluetooth",
     "network",
     "pulseaudio",
@@ -63,9 +63,25 @@
     "tooltip-format": "Omarchy update available",
     "interval": 3600
   },
+  "memory": {
+    "interval": 5,
+    "format": "󰍛 {percentage}%",
+    "format-alt": "󰍛 {used:0.1f}G/{total:0.1f}G",
+    "tooltip-format": "Memory: {used:0.1f}GB / {total:0.1f}GB\nSwap: {swapUsed:0.1f}GB / {swapTotal:0.1f}GB",
+    "on-click": "alacritty -e btop"
+  },
+  "temperature": {
+    "interval": 5,
+    "thermal-zone": 2,
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": ["󰉬", "󱃃", "󰔏", "󱃂", "󰸁"],
+    "tooltip-format": "Temperature: {temperatureC}°C / {temperatureF}°F"
+  },
   "cpu": {
     "interval": 5,
-    "format": "󰍛",
+    "format": "󰻠 {usage}%",
     "on-click": "alacritty -e btop",
     "tooltip-format": "CPU Usage: {usage}%"
   },
@@ -107,9 +123,9 @@
     "on-click": "alacritty --class=Impala -e impala"
   },
   "bluetooth": {
-    "format": "",
+    "format": "󰂯",
     "format-disabled": "󰂲",
-    "format-connected": "",
+    "format-connected": "󰂱",
     "tooltip-format": "Devices connected: {num_connections}",
     "on-click": "blueberry"
   },
@@ -127,6 +143,23 @@
         ""
       ]
     }
+  },
+  "group/tray-expander": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 600,
+      "children-class": "tray-group-item"
+    },
+    "modules": [
+      "custom/expand-icon",
+      "memory",
+      "temperature",
+      "tray"
+    ]
+  },
+  "custom/expand-icon": {
+    "format": " ",
+    "tooltip": false
   },
   "tray": {
     "icon-size": 14,
