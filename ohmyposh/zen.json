@@ -11,7 +11,7 @@
         {
           "foreground": "blue",
           "style": "plain",
-          "template": "<b></b> ",
+          "template": "<b></b> ",
           "type": "session"
         },
         {
