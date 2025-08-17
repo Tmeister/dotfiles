@@ -11,7 +11,7 @@
         {
           "foreground": "blue",
           "style": "plain",
-          "template": "<b></b> ",
+          "template": "<b></b> ",
           "type": "session"
         },
         {
@@ -20,21 +20,58 @@
             "style": "folder"
           },
           "style": "plain",
-          "template": "<b>{{ .Path }}</b>",
+          "template": "<b>{{ .Path }} </b>",
           "type": "path"
         },
         {
           "type": "git",
           "style": "plain",
           "foreground": "green",
-          "template": " {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }} [{{ if .Working.Changed }}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }}{{ end }}{{ if .Staging.Changed }}{{ .Staging.String }}{{ end }}{{ if .BranchStatus }}{{ .BranchStatus }}{{ end }}]{{ end }} ",
+          "template": "{{ .HEAD }}{{ if .Detached }} DETACHED {{ end }}{{ if or (.Working.Changed) (.Staging.Changed) (.BranchStatus) (gt .StashCount 0) }} [{{ if .Working.Changed }}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} | {{ end }}{{ if .Staging.Changed }}{{ .Staging.String }}{{ end }}{{ if and (or (.Working.Changed) (.Staging.Changed)) (or (.BranchStatus) (gt .StashCount 0)) }} {{ end }}{{ if .BranchStatus }}{{ .BranchStatus }}{{ end }}{{ if and (.BranchStatus) (gt .StashCount 0) }} {{ end }}{{ if gt .StashCount 0 }}📦{{ .StashCount }}{{ end }}]{{ end }} ",
           "properties": {
             "fetch_status": true,
             "fetch_upstream_icon": true,
-            "branch_icon": "-  ",
-            "branch_ahead_icon": "⇡",
-            "branch_behind_icon": "⇣",
-            "branch_identical_icon": ""
+            "fetch_bare_info": true,
+            "source": "cli",
+            "branch_icon": " ",
+            "branch_ahead_icon": "↑",
+            "branch_behind_icon": "↓",
+            "branch_identical_icon": "",
+            "branch_gone_icon": "✗",
+            "status_formats": {
+              "Added": "+%d",
+              "Modified": "~%d",
+              "Deleted": "-%d",
+              "Untracked": "?%d",
+              "Unmerged": "!%d"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "node",
+          "style": "plain",
+          "foreground": "magenta",
+          "template": " {{ .Full }}",
+          "properties": {
+            "fetch_package_manager": true,
+            "npm_icon": "",
+            "yarn_icon": "\uF011B",
+            "pnpm_icons": "\uF02C1"
+          }
+        },
+        {
+          "type": "php",
+          "style": "plain",
+          "foreground": "blue",
+          "template": "  {{ .Full }}",
+          "properties": {
+            "fetch_version": true
           }
         }
       ]
