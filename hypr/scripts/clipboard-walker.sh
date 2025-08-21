@@ -10,4 +10,10 @@ if [ -n "$selected" ]; then
     full_entry=$(cliphist list | grep -F "$selected" | head -1)
     # Decode and copy
     echo "$full_entry" | cliphist decode | wl-copy
+    
+    # Small delay to ensure clipboard is ready
+    sleep 0.1
+    
+    # Automatically paste the content to the focused field
+    wtype -M ctrl -P v -m ctrl
 fi

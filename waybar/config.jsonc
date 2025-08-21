@@ -32,12 +32,12 @@
     "on-scroll-down": "hyprctl dispatch workspace e-1",
   },
   "custom/omarchy": {
-    "format": "",
+    "format": "",
     "on-click": "omarchy-menu",
     "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space",
   },
   "custom/update": {
-    "format": "",
+    "format": "󰑓",
     "exec": "omarchy-update-available",
     "on-click": "alacritty --class Omarchy --title Omarchy -e omarchy-update",
     "tooltip-format": "Omarchy update available",
@@ -131,4 +131,3 @@
     "spacing": 10,
   },
 }
-
