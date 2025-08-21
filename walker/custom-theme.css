@@ -1,0 +1,21 @@
+@import url("file://~/.local/share/omarchy/default/walker/themes/omarchy-default.css");
+
+/* Override border and radius to match Hyprland */
+#box {
+  border: 2px solid alpha(#c6d0f5, 0.38); /* Match Hyprland's soft border transparency */
+  border-radius: 4px; /* Match Hyprland's 4px radius */
+  background: alpha(@base, 0.95);
+  padding: 20px;
+}
+
+/* Optional: Add a subtle gradient border effect similar to Hyprland */
+#window {
+  background: linear-gradient(45deg, alpha(#c6d0f5, 0.38), alpha(#89b4fa, 0.25));
+  padding: 2px;
+  border-radius: 4px;
+}
+
+#box {
+  background: alpha(@base, 0.98);
+  margin: 0;
+}
