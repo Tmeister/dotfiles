@@ -1,0 +1,42 @@
+general.import = ["~/.config/omarchy/current/theme/alacritty.toml"]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+normal = { family = "JetBrains Mono NL" }
+bold = { family = "JetBrains Mono NL" }
+italic = { family = "JetBrains Mono NL" }
+size = 11
+
+
+[font.offset]
+y = 16
+
+[font.glyph_offset]
+y = 8
+
+[window]
+padding.x = 16
+padding.y = 4
+decorations = "None"
+opacity = 0.975
+
+
+[keyboard]
+bindings = [
+  { key = "F11", action = "ToggleFullscreen" },
+
+  # Navigation keybindings (migrated from Ghostty - Linux version)
+  { key = "Right", mods = "Control", chars = "\u0005" }, # Ctrl+E (end of line)
+  { key = "Left", mods = "Control", chars = "\u0001" },  # Ctrl+A (beginning of line)
+  { key = "Back", mods = "Control", chars = "\u0015" },  # Ctrl+U (delete to beginning)
+  { key = "Back", mods = "Alt", chars = "\u0017" },      # Ctrl+W (delete word)
+
+  # Enter with shift sends literal newline
+  { key = "Return", mods = "Shift", chars = "\n" },
+
+  # Standard copy/paste keybindings
+  # { key = "C", mods = "Control", action = "Copy" },
+  { key = "V", mods = "Control", action = "Paste" },
+]

@@ -4,37 +4,22 @@
   "position": "top",
   "spacing": 4,
   "height": 28,
-  "modules-left": [
-    "custom/omarchy",
-    "hyprland/workspaces"
-  ],
-  "modules-center": [
-    "clock",
-    "custom/update"
-  ],
+  "modules-left": ["custom/omarchy", "hyprland/workspaces"],
+  "modules-center": ["clock", "custom/update"],
   "modules-right": [
     "group/tray-expander",
     "bluetooth",
     "network",
     "pulseaudio",
-    "cpu"
+    "cpu",
   ],
   "hyprland/workspaces": {
     "on-click": "activate",
     "format": "{icon}",
     "format-icons": {
-      "1": "󰖟",
-      "2": "󰆍",
-      "3": "󰇮",
-      "4": "󰭻",
-      "5": "󰕄",
-      "6": "󰧑",
-      "7": "󱙺",
-      "8": "󰊠",
-      "9": "󰖟",
-      "10": "󰖟",
-      "default": "󰊠",
-      "urgent": "󰊠"
+      "active": "",
+      "default": "",
+      "urgent": "",
     },
     "persistent-workspaces": {
       "1": [],
@@ -42,33 +27,28 @@
       "3": [],
       "4": [],
       "5": [],
-      "6": [],
-      "7": [],
-      "8": [],
-      "9": [],
-      "10": []
     },
     "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1"
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
   },
   "custom/omarchy": {
     "format": "",
     "on-click": "omarchy-menu",
-    "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space"
+    "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space",
   },
   "custom/update": {
     "format": "",
     "exec": "omarchy-update-available",
     "on-click": "alacritty --class Omarchy --title Omarchy -e omarchy-update",
     "tooltip-format": "Omarchy update available",
-    "interval": 3600
+    "interval": 3600,
   },
   "memory": {
     "interval": 5,
     "format": "󰍛 {percentage}%",
     "format-alt": "󰍛 {used:0.1f}G/{total:0.1f}G",
     "tooltip-format": "Memory: {used:0.1f}GB / {total:0.1f}GB\nSwap: {swapUsed:0.1f}GB / {swapTotal:0.1f}GB",
-    "on-click": "alacritty -e btop"
+    "on-click": "alacritty -e btop",
   },
   "temperature": {
     "interval": 5,
@@ -77,13 +57,13 @@
     "critical-threshold": 80,
     "format": "{icon} {temperatureC}°C",
     "format-icons": ["󰉬", "󱃃", "󰔏", "󱃂", "󰸁"],
-    "tooltip-format": "Temperature: {temperatureC}°C / {temperatureF}°F"
+    "tooltip-format": "Temperature: {temperatureC}°C / {temperatureF}°F",
   },
   "cpu": {
     "interval": 5,
     "format": "󰻠 {usage}%",
     "on-click": "alacritty -e btop",
-    "tooltip-format": "CPU Usage: {usage}%"
+    "tooltip-format": "CPU Usage: {usage}%",
   },
   "clock": {
     "format": "{:%A %H:%M}",
@@ -99,18 +79,12 @@
         "days": "<span color='#ecc6d9'><b>{}</b></span>",
         "weeks": "<span color='#99c1f1'><b>W{}</b></span>",
         "weekdays": "<span color='#ffb29b'><b>{}</b></span>",
-        "today": "<span color='#ff6699'><b>{}</b></span>"
-      }
-    }
+        "today": "<span color='#ff6699'><b>{}</b></span>",
+      },
+    },
   },
   "network": {
-    "format-icons": [
-      "󰤯",
-      "󰤟",
-      "󰤢",
-      "󰤥",
-      "󰤨"
-    ],
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
     "format": "{icon}",
     "format-wifi": "{icon}",
     "format-ethernet": "󰀂",
@@ -120,14 +94,14 @@
     "tooltip-format-disconnected": "Disconnected",
     "interval": 3,
     "nospacing": 1,
-    "on-click": "alacritty --class=Impala -e impala"
+    "on-click": "alacritty --class=Impala -e impala",
   },
   "bluetooth": {
     "format": "󰂯",
     "format-disabled": "󰂲",
     "format-connected": "󰂱",
     "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "blueberry"
+    "on-click": "blueberry",
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
@@ -137,32 +111,24 @@
     "scroll-step": 5,
     "format-muted": "󰝟",
     "format-icons": {
-      "default": [
-        "",
-        "",
-        ""
-      ]
-    }
+      "default": ["", "", ""],
+    },
   },
   "group/tray-expander": {
     "orientation": "inherit",
     "drawer": {
       "transition-duration": 600,
-      "children-class": "tray-group-item"
+      "children-class": "tray-group-item",
     },
-    "modules": [
-      "custom/expand-icon",
-      "memory",
-      "temperature",
-      "tray"
-    ]
+    "modules": ["custom/expand-icon", "memory", "temperature", "tray"],
   },
   "custom/expand-icon": {
     "format": " ",
-    "tooltip": false
+    "tooltip": false,
   },
   "tray": {
     "icon-size": 14,
-    "spacing": 10
-  }
+    "spacing": 10,
+  },
 }
+

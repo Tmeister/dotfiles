@@ -37,7 +37,7 @@
             "branch_ahead_icon": "↑",
             "branch_behind_icon": "↓",
             "branch_identical_icon": "",
-            "branch_gone_icon": "✗",
+            "branch_gone_icon": "",
             "status_formats": {
               "Added": "+%d",
               "Modified": "~%d",
@@ -92,12 +92,5 @@
       ],
       "type": "prompt"
     }
-  ],
-  "transient_prompt": {
-    "foreground_templates": [
-      "{{if gt .Code 0}}red{{end}}",
-      "{{if eq .Code 0}}green{{end}}"
-    ],
-    "template": "❯ "
-  }
+  ]
 }

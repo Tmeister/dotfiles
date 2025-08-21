@@ -1,45 +1,22 @@
 @import "../omarchy/current/theme/waybar.css";
 
-/* Catppuccin Mocha color palette */
-@define-color base #1e1e2e;
-@define-color mantle #181825;
-@define-color crust #11111b;
-@define-color text #cdd6f4;
-@define-color subtext0 #a6adc8;
-@define-color subtext1 #bac2de;
-@define-color surface0 #313244;
-@define-color surface1 #45475a;
-@define-color surface2 #585b70;
-@define-color overlay0 #6c7086;
-@define-color overlay1 #7f849c;
-@define-color overlay2 #9399b2;
-@define-color blue #89b4fa;
-@define-color lavender #b4befe;
-@define-color sapphire #74c7ec;
-@define-color sky #89dceb;
-@define-color teal #94e2d5;
-@define-color green #a6e3a1;
-@define-color yellow #f9e2af;
-@define-color peach #fab387;
-@define-color maroon #eba0ac;
-@define-color red #f38ba8;
-@define-color mauve #cba6f7;
-@define-color pink #f5c2e7;
-@define-color flamingo #f2cdcd;
-@define-color rosewater #f5e0dc;
+/*
+* Define Tokyo Night color palette
+*/
 
 * {
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: "CaskaydiaMono Nerd Font", "JetBrains Mono NL", "Font Awesome", monospace;
-  font-size: 14px;
-  font-weight: bold;
+  font-family:
+    "CaskaydiaMono Nerd Font", "JetBrains Mono NL", "Font Awesome", monospace;
+  font-size: 13px;
 }
 
 window#waybar {
-  background-color: @base;
-  color: @text;
+  background: rgba(0, 0, 0, 0.1);
+  border-bottom: rgba(255, 255, 255, 0.1) 1px solid;
+  color: @foreground;
   transition: all 0.3s ease;
 }
 
@@ -47,89 +24,93 @@ window#waybar.hidden {
   opacity: 0.2;
 }
 
-/* Main bar styling */
-#waybar {
-  background: alpha(@base, 0.95);
-  color: @text;
-}
+/* Main bar styling with semitransparent background and shadow */
+/* #waybar { */
+/*   background: rgba(26, 27, 38, 0.7); */
+/*   color: @foreground; */
+/*   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); */
+/* } */
 
-/* Left modules */
+/* Module containers with dark background */
 .modules-left {
-  background: @base;
+  /* background: rgba(16, 16, 30, 0.9); */
+  background: transparent;
   border-radius: 4px;
-  margin: 1px 0 0 2px;
-  padding: 1px 4px;
+  margin: 6px 0 6px 10px;
+  padding: 4px 8px;
 }
 
-/* Center modules */
 .modules-center {
-  background: @base;
+  /* background: rgba(16, 16, 30, 0.9); */
+  background: transparent;
   border-radius: 4px;
-  margin: 1px 0 0 0;
-  padding: 1px 6px;
+  margin: 6px 0;
+  padding: 4px 8px;
 }
 
-/* Right modules */
 .modules-right {
-  background: @base;
+  /* background: rgba(16, 16, 30, 0.9); */
+  background: transparent;
   border-radius: 4px;
-  margin: 1px 2px 0 0;
-  padding: 1px 4px;
+  margin: 6px 10px 6px 0;
+  padding: 4px 8px;
 }
 
-/* Workspace styling */
+/* Workspace styling - dots approach */
 #workspaces {
-  margin: 0 2px;
+  /* background: rgba(30, 30, 46, 0.6); */
+  background: transparent;
+  padding: 0 8px;
+  margin: 0;
+  border-radius: 12px;
 }
 
 #workspaces button {
-  background: alpha(@surface1, 0.5);
-  color: @subtext1;
-  padding: 0 6px;
-  margin: 0 1px;
-  border-radius: 6px;
+  background: transparent;
+  color: #73daca; /* Inactive with app */
+  padding: 0 5px;
+  margin: 0 2px;
+  border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 16px;
   min-width: 24px;
+  min-height: 24px;
 }
 
 #workspaces button:hover {
-  background: alpha(@sapphire, 0.3);
-  color: @sapphire;
-  box-shadow: 0 2px 4px alpha(@crust, 0.3);
+  color: #bb9af7; /* Tokyo Night purple on hover */
+  background: rgba(187, 154, 247, 0.15);
 }
 
 #workspaces button.active {
-  background: alpha(@blue, 0.3);
-  color: @blue;
-  box-shadow: 0 2px 4px alpha(@blue, 0.2);
+  color: #ff9e64; /* Orange for active */
+  background: transparent;
+  font-size: 18px;
 }
 
 #workspaces button.urgent {
-  background: @red;
-  color: @base;
+  color: #f7768e; /* Tokyo Night red for urgent */
   animation: pulse 1s infinite;
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 alpha(@red, 0.7);
+    opacity: 1;
   }
-  70% {
-    box-shadow: 0 0 0 10px alpha(@red, 0);
+  50% {
+    opacity: 0.7;
   }
   100% {
-    box-shadow: 0 0 0 0 alpha(@red, 0);
+    opacity: 1;
   }
 }
 
 #workspaces button.empty {
-  color: @overlay0;
-  opacity: 0.8;
-  background: alpha(@surface0, 0.3);
+  color: #9aa5ce; /* Inactive no app */
+  opacity: 1;
 }
 
-/* Module common styling */
+/* Individual modules - transparent backgrounds */
 #tray,
 #cpu,
 #battery,
@@ -139,14 +120,18 @@ window#waybar.hidden {
 #clock,
 #custom-omarchy,
 #custom-update,
-#custom-expand-icon {
-  padding: 0 4px;
-  margin: 0 1px;
-  border-radius: 6px;
+#custom-expand-icon,
+#memory,
+#temperature {
   background: transparent;
+  padding: 0 10px;
+  margin: 0 2px;
+  border-radius: 6px;
+  color: @foreground;
   transition: all 0.3s ease;
 }
 
+/* Hover effects for modules */
 #tray:hover,
 #cpu:hover,
 #battery:hover,
@@ -154,76 +139,146 @@ window#waybar.hidden {
 #bluetooth:hover,
 #pulseaudio:hover,
 #clock:hover,
-#custom-omarchy:hover {
-  background: alpha(@surface2, 0.5);
-  box-shadow: 0 2px 4px alpha(@crust, 0.2);
+#custom-omarchy:hover,
+#memory:hover,
+#temperature:hover {
+  background: rgba(122, 162, 247, 0.1);
+  color: @foreground;
 }
 
-/* Clock styling */
+/* Clock styling - slightly highlighted */
 #clock {
-  color: @subtext1;
-  font-weight: bold;
+  color: #89b4fa;
+  font-weight: 600;
+  padding: 0 12px;
+}
+
+#clock:hover {
+  background: rgba(122, 162, 247, 0.15);
 }
 
 /* CPU styling */
 #cpu {
-  color: @subtext0;
+  color: #89dceb;
 }
 
 #cpu.warning {
-  color: @peach;
+  color: #f9e2af;
 }
 
 #cpu.critical {
-  color: @red;
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
+}
+
+/* Memory styling */
+#memory {
+  color: #a6e3a1;
+}
+
+#memory.warning {
+  color: #f9e2af;
+}
+
+#memory.critical {
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
+}
+
+/* Temperature styling */
+#temperature {
+  color: #fab387;
+}
+
+#temperature.critical {
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
 }
 
 /* Network styling */
 #network {
-  color: @subtext0;
+  color: #cba6f7;
 }
 
 #network.disconnected {
-  color: @red;
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
 }
 
 #network.wifi {
-  color: @subtext1;
+  color: #cba6f7;
+}
+
+#network.ethernet {
+  color: #73daca;
 }
 
 /* Bluetooth styling */
 #bluetooth {
-  color: @subtext0;
+  color: #74c7ec;
 }
 
 #bluetooth.disabled {
-  color: @overlay0;
-  opacity: 0.6;
+  color: #545c7e;
+  opacity: 0.5;
 }
 
 #bluetooth.connected {
-  color: @subtext1;
+  color: #89dceb;
 }
 
 /* PulseAudio styling */
 #pulseaudio {
-  color: @subtext0;
+  color: #f5c2e7;
 }
 
 #pulseaudio.muted {
-  color: @overlay0;
-  opacity: 0.6;
+  color: #545c7e;
+  opacity: 0.5;
+}
+
+#pulseaudio.source-muted {
+  color: #fab387;
+}
+
+/* Battery styling */
+#battery {
+  color: #a6e3a1;
+}
+
+#battery.charging {
+  color: #a6e3a1;
+}
+
+#battery.warning:not(.charging) {
+  color: #f9e2af;
+}
+
+#battery.critical:not(.charging) {
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
+  animation: blink 0.5s linear infinite alternate;
+}
+
+@keyframes blink {
+  to {
+    background: rgba(247, 118, 142, 0.2);
+  }
 }
 
 /* Custom modules */
 #custom-omarchy {
-  color: @subtext1;
-  font-size: 18px;
-  padding: 0 6px;
+  color: #f5c2e7;
+  font-size: 15px;
+  padding: 0 10px;
+}
+
+#custom-omarchy:hover {
+  background: rgba(187, 154, 247, 0.15);
 }
 
 #custom-update {
-  color: @peach;
+  color: #fab387;
   animation: pulse-soft 2s infinite;
 }
 
@@ -242,6 +297,7 @@ window#waybar.hidden {
 /* Tray styling */
 #tray {
   background: transparent;
+  padding: 0 6px;
 }
 
 #tray > .passive {
@@ -252,21 +308,29 @@ window#waybar.hidden {
   -gtk-icon-effect: highlight;
 }
 
+/* Separators between modules */
+#custom-separator {
+  color: #545c7e;
+  padding: 0 4px;
+  font-size: 16px;
+}
+
 /* Tooltip styling */
 tooltip {
-  background: @surface0;
-  border: 1px solid @sapphire;
+  background: rgba(16, 16, 30, 0.95);
+  border: 1px solid rgba(122, 162, 247, 0.5);
   border-radius: 8px;
-  padding: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 tooltip label {
-  color: @text;
+  color: @foreground;
   font-family: "CaskaydiaMono Nerd Font", "JetBrains Mono", monospace;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 /* Smooth transitions for all interactive elements */
 button:active {
-  opacity: 0.95;
+  opacity: 0.85;
 }
