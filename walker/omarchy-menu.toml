@@ -1,0 +1,13 @@
+animation = false
+
+[ui.window.box]
+width = 320
+
+[ui.window.box.scroll.list]
+max_width = 320
+min_width = 280
+width = 320
+max_height = 450
+
+[ui.window.box.search]
+hide = false

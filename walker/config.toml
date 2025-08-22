@@ -1,9 +1,10 @@
 close_when_open = true
-theme = "omarchy-default"
+theme = "custom-theme"
 theme_base = []
-theme_location = ["~/.local/share/omarchy/default/walker/themes/"]
+theme_location = ["~/.config/walker/", "~/.local/share/omarchy/default/walker/themes/"]
 hotreload_theme = true
 force_keyboard_focus = true
+animation = false
 
 [keys.ai]
 run_last_response = ["ctrl e"]
