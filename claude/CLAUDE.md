@@ -19,6 +19,47 @@
 
 - Think carefully and only action the specific task I have given you with the most concise and elegant solution that changes as little code as possible
 
+### **Service Architecture Patterns**
+
+When working with service classes, follow these patterns:
+
+#### AI Module Architecture (Reference Implementation)
+- **Single Responsibility**: Each service class handles one domain concern
+- **Dependency Injection**: Use constructor property promotion for all dependencies
+- **Transaction Management**: Wrap complex operations in database transactions
+- **Event-Driven**: Dispatch events for audit trails and cross-cutting concerns
+- **Service Orchestration**: Use orchestrator services (like ChatService) to coordinate multiple domain services
+- **Return Types**: Always declare explicit return types for all methods
+
+Example service structure:
+```php
+class ChatService
+{
+    public function __construct(
+        protected OpenAIService $openAIService,
+        protected SessionManagerService $sessionManager,
+        protected MessageHandlerService $messageHandler
+    ) {}
+
+    public function sendMessage(AIChatSession $session, string $message): AIChatMessage
+    {
+        DB::beginTransaction();
+        try {
+            // Orchestrate multiple services
+            $userMessage = $this->messageHandler->createUserMessage($session, $message);
+            $response = $this->openAIService->chatCompletion($messages);
+            $assistantMessage = $this->messageHandler->createAssistantMessage($session, $response);
+            
+            DB::commit();
+            return $assistantMessage;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+}
+```
+
 ## 📚 Style Guide System
 
 ### Available Style Guides

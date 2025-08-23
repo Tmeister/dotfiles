@@ -1,10 +1,13 @@
 close_when_open = true
 theme = "custom-theme"
 theme_base = []
-theme_location = ["~/.config/walker/", "~/.local/share/omarchy/default/walker/themes/"]
+theme_location = [
+  "~/.config/walker/",
+  "~/.local/share/omarchy/default/walker/themes/",
+]
 hotreload_theme = true
 force_keyboard_focus = true
-animation = false
+# animation = false
 
 [keys.ai]
 run_last_response = ["ctrl e"]
@@ -13,7 +16,7 @@ run_last_response = ["ctrl e"]
 max_entries = 200
 
 [search]
-placeholder = " Search..."
+placeholder = "Search for apps..."
 
 [builtins.hyprland_keybinds]
 path = "~/.config/hypr/hyprland.conf"
@@ -21,7 +24,7 @@ hidden = true
 
 [builtins.applications]
 launch_prefix = "uwsm app -- "
-placeholder = " Search..."
+placeholder = "Search for apps..."
 prioritize_new = false
 context_aware = false
 show_sub_when_single = false

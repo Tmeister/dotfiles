@@ -8,12 +8,10 @@ selected=$(cliphist list | sed 's/^[0-9]*\t//' | walker --dmenu)
 if [ -n "$selected" ]; then
     # Find the line with this content and get its full entry with ID
     full_entry=$(cliphist list | grep -F "$selected" | head -1)
-    # Decode and copy
+    # Decode and copy to clipboard
     echo "$full_entry" | cliphist decode | wl-copy
     
-    # Small delay to ensure clipboard is ready
-    sleep 0.1
-    
-    # Automatically paste the content to the focused field
-    wtype -M ctrl -P v -m ctrl
+    # Simple and reliable: just copy to clipboard
+    # Auto-paste is unreliable in browsers due to Wayland security restrictions
+    notify-send "Clipboard" "📋 Copied to clipboard" -t 1500
 fi

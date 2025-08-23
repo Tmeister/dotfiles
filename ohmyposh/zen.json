@@ -52,29 +52,7 @@
     {
       "type": "prompt",
       "alignment": "right",
-      "segments": [
-        {
-          "type": "node",
-          "style": "plain",
-          "foreground": "magenta",
-          "template": " {{ .Full }}",
-          "properties": {
-            "fetch_package_manager": true,
-            "npm_icon": "",
-            "yarn_icon": "\uF011B",
-            "pnpm_icons": "\uF02C1"
-          }
-        },
-        {
-          "type": "php",
-          "style": "plain",
-          "foreground": "blue",
-          "template": "  {{ .Full }}",
-          "properties": {
-            "fetch_version": true
-          }
-        }
-      ]
+      "segments": []
     },
     {
       "alignment": "left",
