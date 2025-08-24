@@ -6,7 +6,6 @@
 /* Reset all elements */
 * {
   all: unset;
-  /* font-family: "Liberation Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif; */
   font-size: 14px;
 }
 
@@ -44,7 +43,7 @@
 /* Input field styling */
 #input {
   color: @text;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 400;
   background: transparent;
   caret-color: @selected-text;
@@ -112,7 +111,7 @@ child:selected {
 /* Main label */
 #label {
   color: @text;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 1.4;
 }
@@ -215,4 +214,3 @@ child:hover #icon {
   min-height: 100px;
   max-height: 600px;
 }
-
