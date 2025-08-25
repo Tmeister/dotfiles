@@ -8,7 +8,7 @@
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 window#waybar {
@@ -64,7 +64,7 @@ window#waybar.hidden {
 
 #workspaces button {
   background: transparent;
-  color: #73daca; /* Inactive with app */
+  color: #ef9f76; /* Inactive with app */
   padding: 0 5px;
   margin: 0;
   border-radius: 50%;
@@ -80,7 +80,7 @@ window#waybar.hidden {
 }
 
 #workspaces button.active {
-  color: #ff9e64; /* Orange for active */
+  color: #fe640b;
   background: transparent;
   font-size: 18px;
 }
@@ -103,7 +103,7 @@ window#waybar.hidden {
 }
 
 #workspaces button.empty {
-  color: #9aa5ce; /* Inactive no app */
+  color: #8087a2; /* Inactive no app */
   opacity: 1;
 }
 
@@ -229,7 +229,7 @@ window#waybar.hidden {
 
 /* PulseAudio styling */
 #pulseaudio {
-  color: #f5c2e7;
+  color: #7aa2f7;
 }
 
 #pulseaudio.muted {
@@ -268,7 +268,7 @@ window#waybar.hidden {
 
 /* Custom modules - inside grouped container */
 #custom-omarchy {
-  color: #7aa2f7;
+  color: #8839ef;
   font-size: 16px;
 }
 

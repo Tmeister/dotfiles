@@ -4,8 +4,8 @@
   "position": "top",
   "spacing": 0,
   "height": 32,
-  "modules-left": ["custom/omarchy", "hyprland/workspaces"],
-  "modules-center": ["clock", "custom/update"],
+  "modules-left": ["custom/omarchy", "clock", "custom/update"],
+  "modules-center": ["hyprland/workspaces"],
   "modules-right": [
     "group/tray-expander",
     "bluetooth",
@@ -18,7 +18,7 @@
     "format": "{icon}",
     "format-icons": {
       "active": "",
-      "default": "",
+      "default": "",
       "urgent": "",
     },
     "persistent-workspaces": {
@@ -104,7 +104,7 @@
     "on-click": "blueberry",
   },
   "pulseaudio": {
-    "format": "{icon} {volume}%",
+    "format": "  {volume}",
     "on-click": "alacritty --class=Wiremix -e wiremix",
     "on-click-right": "pamixer -t",
     "tooltip-format": "Playing at {volume}%",
