@@ -6,11 +6,8 @@ Generate a conventional commit message following the Conventional Commits specif
 
 Analyze current git changes and generate an appropriate conventional commit: **$ARGUMENTS**
 
-**Flags:**
-- `--no-review`: Skip confirmation and commit immediately
-- If `--no-review` is not provided, show the commit message and ask for confirmation
-
 1. **Analyze Git Status and Changes**
+
    ```bash
    # Check staged changes
    git status --porcelain
@@ -37,11 +34,12 @@ Analyze current git changes and generate an appropriate conventional commit: **$
    - Keep scope concise and lowercase
 
 4. **Generate Commit Message Format**
+
    ```
    type(scope): description
-   
+
    [optional body]
-   
+
    [optional footer(s)]
    ```
 
@@ -51,43 +49,38 @@ Analyze current git changes and generate an appropriate conventional commit: **$
    - **Footer**: BREAKING CHANGE or issue references
 
 6. **Breaking Changes**
+
    ```
    feat(api)!: remove deprecated user endpoint
-   
+
    BREAKING CHANGE: The /api/v1/user endpoint has been removed.
    Use /api/v2/users instead.
    ```
 
 7. **Examples**
+
    ```bash
    # Simple feature
    feat(auth): add OAuth2 login support
-   
+
    # Bug fix with scope
    fix(api): resolve null pointer in user endpoint
-   
+
    # Documentation
    docs: update installation instructions
-   
+
    # Dependency update
    chore(deps): bump lodash to 4.17.21
-   
+
    # Breaking change
    feat(database)!: migrate to PostgreSQL
-   
+
    BREAKING CHANGE: SQLite support has been removed.
    Update connection strings to use PostgreSQL format.
    ```
 
 8. **Commit Process**
    - Generate appropriate message based on staged changes
-   - Check if `--no-review` flag is present in arguments
-   - If `--no-review` flag is NOT present:
-     - Display the generated commit message
-     - Ask for user confirmation before proceeding
-     - Wait for user approval before committing
-   - If `--no-review` flag IS present:
-     - Proceed directly to commit without showing message or asking for confirmation
    - Use `git commit -m "message"` for simple commits
    - Use `git commit -F -` for multi-line commits with body/footer
    - Ensure all staged changes are included

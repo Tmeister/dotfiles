@@ -6,6 +6,22 @@ TERM = "xterm-256color"
 [font]
 size = 11
 
+[font.normal]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold"
+
+[font.bold]
+family = "JetBrainsMono Nerd Font Mono"
+style = "ExtraBold"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "Bold Italic"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font Mono"
+style = "ExtraBold Italic"
+
 
 [font.offset]
 y = 18

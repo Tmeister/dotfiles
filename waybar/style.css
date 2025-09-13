@@ -12,7 +12,7 @@
 }
 
 window#waybar {
-  background: transparent;
+  background: @background;
   color: @foreground;
   transition: all 0.3s ease;
 }
@@ -23,41 +23,41 @@ window#waybar.hidden {
 
 /* macOS-style grouped module containers with wave effects */
 .modules-left {
-  background-color: transparent;
-  background-image: url("file:///home/tmeister/.dotfiles/waybar/wave-right.svg");
-  background-repeat: no-repeat;
-  background-position: calc(100% + -2px) center;
-  background-size: 30px 32px;
-  padding-right: 32px;
+  /* background-color: transparent; */
+  /* background-image: url("file:///home/tmeister/.dotfiles/waybar/wave-right.svg"); */
+  /* background-repeat: no-repeat; */
+  /* background-position: calc(100% + -2px) center; */
+  /* background-size: 30px 32px; */
+  /* padding-right: 32px; */
 }
 
 .modules-center {
-  background-color: transparent;
-  background-image:
-    url("file:///home/tmeister/.dotfiles/waybar/wave-left.svg"),
-    url("file:///home/tmeister/.dotfiles/waybar/wave-right.svg");
-  background-repeat: no-repeat, no-repeat;
-  background-position:
-    calc(0% - -2px) center,
-    calc(100% + -2px) center;
-  background-size:
-    30px 32px,
-    30px 32px;
-  padding: 0 32px;
+  /* background-color: transparent; */
+  /* background-image: */
+  /*   url("file:///home/tmeister/.dotfiles/waybar/wave-left.svg"), */
+  /*   url("file:///home/tmeister/.dotfiles/waybar/wave-right.svg"); */
+  /* background-repeat: no-repeat, no-repeat; */
+  /* background-position: */
+  /*   calc(0% - -2px) center, */
+  /*   calc(100% + -2px) center; */
+  /* background-size: */
+  /*   30px 32px, */
+  /*   30px 32px; */
+  /* padding: 0 32px; */
 }
 
 .modules-right {
-  background-color: transparent;
-  background-image: url("file:///home/tmeister/.dotfiles/waybar/wave-left.svg");
-  background-repeat: no-repeat;
-  background-position: 2px center;
-  background-size: 30px 32px;
-  padding-left: 32px;
+  /* background-color: transparent; */
+  /* background-image: url("file:///home/tmeister/.dotfiles/waybar/wave-left.svg"); */
+  /* background-repeat: no-repeat; */
+  /* background-position: 2px center; */
+  /* background-size: 30px 32px; */
+  /* padding-left: 32px; */
 }
 
 /* Workspace styling - inside grouped container */
 #workspaces {
-  background: rgba(0, 0, 0, 0.65);
+  /* background: rgba(0, 0, 0, 0.65); */
   margin: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -120,7 +120,7 @@ window#waybar.hidden {
 #custom-expand-icon,
 #memory,
 #temperature {
-  background: rgba(0, 0, 0, 0.65);
+  /* background: rgba(0, 0, 0, 0.65); */
   border: none;
   color: @foreground;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

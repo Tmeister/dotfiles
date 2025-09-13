@@ -1,35 +1,113 @@
 @import "../omarchy/current/theme/waybar.css";
 
-* {
-  background-color: red;
-  color: @foreground;
+/*
+* Define Tokyo Night color palette
+*/
 
+* {
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: JetBrains Mono NL;
   font-size: 12px;
 }
 
+window#waybar {
+  background: transparent;
+  color: @foreground;
+  transition: all 0.3s ease;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+/* macOS-style grouped module containers with wave effects */
 .modules-left {
-  margin-left: 8px;
+  background-color: transparent;
+  background-image: url("file:///home/tmeister/.dotfiles/waybar/wave-right.svg");
+  background-repeat: no-repeat;
+  background-position: calc(100% + -2px) center;
+  background-size: 30px 32px;
+  padding-right: 32px;
+}
+
+.modules-center {
+  background-color: transparent;
+  background-image:
+    url("file:///home/tmeister/.dotfiles/waybar/wave-left.svg"),
+    url("file:///home/tmeister/.dotfiles/waybar/wave-right.svg");
+  background-repeat: no-repeat, no-repeat;
+  background-position:
+    calc(0% - -2px) center,
+    calc(100% + -2px) center;
+  background-size:
+    30px 32px,
+    30px 32px;
+  padding: 0 32px;
 }
 
 .modules-right {
-  margin-right: 8px;
+  background-color: transparent;
+  background-image: url("file:///home/tmeister/.dotfiles/waybar/wave-left.svg");
+  background-repeat: no-repeat;
+  background-position: 2px center;
+  background-size: 30px 32px;
+  padding-left: 32px;
+}
+
+/* Workspace styling - inside grouped container */
+#workspaces {
+  background: rgba(0, 0, 0, 0.65);
+  margin: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #workspaces button {
-  all: initial;
-  padding: 0 6px;
-  margin: 0 1.5px;
-  min-width: 9px;
+  background: transparent;
+  color: #ef9f76; /* Inactive with app */
+  padding: 0 5px;
+  margin: 0;
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 16px;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+#workspaces button:hover {
+  /* color: #bb9af7; */ /* Tokyo Night purple on hover */
+  /* background: rgba(187, 154, 247, 0.15); */
+}
+
+#workspaces button.active {
+  color: #fe640b;
+  background: transparent;
+  font-size: 18px;
+}
+
+#workspaces button.urgent {
+  color: #f7768e; /* Tokyo Night red for urgent */
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 #workspaces button.empty {
-  opacity: 0.5;
+  color: #8087a2; /* Inactive no app */
+  opacity: 1;
 }
 
+/* Individual modules - inside grouped containers */
 #tray,
 #cpu,
 #battery,
@@ -37,15 +115,228 @@
 #bluetooth,
 #pulseaudio,
 #clock,
+#custom-omarchy,
+#custom-update,
+#custom-expand-icon,
+#memory,
+#temperature {
+  background: rgba(0, 0, 0, 0.65);
+  border: none;
+  color: @foreground;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 16px;
+  margin: 0;
+  padding: 0 12px;
+}
+
+/* Subtle hover effects for individual modules */
+#tray:hover,
+#cpu:hover,
+#battery:hover,
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover,
+#custom-omarchy:hover,
+#memory:hover,
+#temperature:hover {
+  background: rgba(0, 0, 0, 1);
+  color: @foreground;
+}
+
+/* Hover effects for module groups */
+/* .modules-left:hover, */
+/* .modules-center:hover, */
+/* .modules-right:hover { */
+/*   border-color: rgba(122, 162, 247, 0.5); */
+/*   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4); */
+/* } */
+
+/* Clock styling - inside grouped container */
+#clock {
+  color: #a9b1d6;
+  font-weight: 500;
+}
+
+/* CPU styling */
+#cpu {
+  color: #89dceb;
+}
+
+#cpu.warning {
+  color: #f9e2af;
+}
+
+#cpu.critical {
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
+}
+
+/* Memory styling */
+#memory {
+  color: #a6e3a1;
+}
+
+#memory.warning {
+  color: #f9e2af;
+}
+
+#memory.critical {
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
+}
+
+/* Temperature styling */
+#temperature {
+  color: #fab387;
+}
+
+#temperature.critical {
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
+}
+
+/* Network styling */
+#network {
+  color: #cba6f7;
+}
+
+#network.disconnected {
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
+}
+
+#network.wifi {
+  color: #cba6f7;
+}
+
+#network.ethernet {
+  color: #73daca;
+}
+
+/* Bluetooth styling */
+#bluetooth {
+  color: #74c7ec;
+}
+
+#bluetooth.disabled {
+  color: #545c7e;
+  opacity: 0.5;
+}
+
+#bluetooth.connected {
+  color: #89dceb;
+}
+
+/* PulseAudio styling */
+#pulseaudio {
+  color: #7aa2f7;
+}
+
+#pulseaudio.muted {
+  color: #545c7e;
+  opacity: 0.5;
+}
+
+#pulseaudio.source-muted {
+  color: #fab387;
+}
+
+/* Battery styling */
+#battery {
+  color: #a6e3a1;
+}
+
+#battery.charging {
+  color: #a6e3a1;
+}
+
+#battery.warning:not(.charging) {
+  color: #f9e2af;
+}
+
+#battery.critical:not(.charging) {
+  color: #f38ba8;
+  background: rgba(247, 118, 142, 0.1);
+  animation: blink 0.5s linear infinite alternate;
+}
+
+@keyframes blink {
+  to {
+    background: rgba(247, 118, 142, 0.2);
+  }
+}
+
+/* Custom modules - inside grouped container */
 #custom-omarchy {
-  min-width: 12px;
-  margin: 0 7.5px;
+  color: #8839ef;
+  font-size: 16px;
 }
 
-#custom-expand-icon {
-  margin-right: 7px;
+#custom-update {
+  color: #fab387;
+  animation: pulse-soft 2s infinite;
 }
 
+@keyframes pulse-soft {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Tray styling - inside grouped container */
+#tray {
+  background: transparent;
+  /* padding: 4px 6px; */
+  /* border-radius: 6px; */
+}
+
+#tray:hover {
+  background: transparent;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+/* Separators between modules */
+#custom-separator {
+  color: #545c7e;
+  padding: 0;
+  font-size: 16px;
+}
+
+/* Enhanced tooltip styling */
 tooltip {
-  padding: 2px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+tooltip label {
+  color: @foreground;
+  font-size: 12px;
+}
+
+/* Drawer group styling - no individual borders */
+.tray-group-item {
+  background: rgba(0, 0, 0, 0.65);
+  border: none;
+  margin: 0;
+}
+
+/* Smooth transitions for all interactive elements */
+button:active {
+  opacity: 0.85;
 }

@@ -18,7 +18,7 @@ menu() {
     fi
   fi
 
-  echo -e "$options" | walker --dmenu --theme omarchy-menu -p "$prompt…" "${args[@]}"
+  echo -e "$options" | walker --dmenu --theme dmenu-styled -p "$prompt…" "${args[@]}"
 }
 
 terminal() {
@@ -51,7 +51,7 @@ install_font() {
 }
 
 show_learn_menu() {
-  case $(menu "Learn" "  Keybindings\n  Omarchy\n  Hyprland\n󰣇  Arch\n  Neovim\n󱆃  Bash") in
+  case $(menu "Learnsss" "  Keybindings\n  Omarchy\n  Hyprland\n󰣇  Arch\n  Neovim\n󱆃  Bash") in
   *Keybindings*) omarchy-menu-keybindings ;;
   *Omarchy*) open_web "https://manuals.omamix.org/2/the-omarchy-manual" ;;
   *Hyprland*) open_web "https://wiki.hypr.land/" ;;

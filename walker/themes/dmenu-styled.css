@@ -1,7 +1,7 @@
 /* Import Omarchy theme colors for dynamic theming */
 @import url("file://~/.config/omarchy/current/theme/walker.css");
 
-/* Raycast-inspired theme with Omarchy dynamic colors */
+/* Raycast-inspired theme with Omarchy dynamic colors - dmenu variant */
 
 /* Reset all elements */
 * {
@@ -15,17 +15,15 @@
   color: @text;
 }
 
-/* Main container with dynamic colors */
+/* Main container with dynamic colors - matching custom-theme */
 #box {
   background: alpha(@base, 0.95);
-  backdrop-filter: blur(20px);
   border: 1px solid alpha(@border, 0.15);
   border-radius: 4px;
   box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
   margin: 120px 200px;
   padding: 0;
-  min-width: 600px;
-  max-width: 700px;
+  min-width: 420px;
 }
 
 /* Search bar section */
@@ -37,7 +35,7 @@
 
 /* Hide prompt/search icon */
 #prompt {
-  display: none;
+  opacity: 0;
 }
 
 /* Input field styling */
@@ -55,18 +53,17 @@
 
 /* Hide typeahead */
 #typeahead {
-  display: none;
+  opacity: 0;
 }
 
 /* Hide clear button */
 #clear {
-  display: none;
+  opacity: 0;
 }
 
 /* List container */
 #list {
   padding: 8px;
-  max-height: 400px;
   background: transparent;
 }
 
@@ -76,7 +73,6 @@ child {
   padding: 0;
   border-radius: 8px;
   background: transparent;
-  /* transition: background 0.1s ease; */ /* Removed for instant response */
 }
 
 child:hover,
@@ -87,24 +83,19 @@ child:selected {
 /* Item container */
 #item {
   padding: 10px 14px;
-  display: flex;
-  align-items: center;
 }
 
-/* Icons */
+/* Hide icons in dmenu mode (omarchy menu doesn't use them) */
 #icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
-  opacity: 0.9;
-  -gtk-icon-transform: scale(1);
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
 }
 
 /* Text container */
 #text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   color: @text;
 }
 
@@ -135,7 +126,7 @@ child:selected #sub {
   color: alpha(@selected-text, 0.7);
 }
 
-/* Right-side labels (like folder count, command type) */
+/* Right-side labels */
 #activationlabel {
   color: alpha(@text, 0.3);
   font-size: 12px;
@@ -145,26 +136,8 @@ child:selected #sub {
   border-radius: 4px;
 }
 
-/* Category headers (if any) */
-#category {
-  color: alpha(@text, 0.4);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  padding: 12px 14px 6px 14px;
-  margin-top: 4px;
-  border-top: 1px solid alpha(@border, 0.05);
-}
-
-#category:first-child {
-  border-top: none;
-  margin-top: 0;
-}
-
 /* Scrollbar */
 scrollbar {
-  width: 3px;
   background: transparent;
   margin: 4px;
 }
@@ -181,36 +154,9 @@ scrollbar slider:hover {
 
 /* Hide unnecessary elements */
 #spinner {
-  display: none;
+  opacity: 0;
 }
 
 #bar {
-  display: none;
-}
-
-/* Active window indicator */
-#item.active #label {
-  color: @selected-text;
-  font-style: italic;
-}
-
-/* Keyboard shortcut hints */
-.shortcut {
-  color: alpha(@text, 0.3);
-  font-size: 11px;
-  padding: 2px 4px;
-  background: alpha(@text, 0.08);
-  border-radius: 3px;
-  margin-left: 8px;
-}
-
-/* Additional hover polish */
-child:hover #icon {
-  opacity: 1;
-}
-
-/* Make sure the window is properly sized */
-#window > #box {
-  min-height: 100px;
-  max-height: 600px;
+  opacity: 0;
 }
