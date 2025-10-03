@@ -1,6 +1,6 @@
 # Commit Generator
 
-Generate a conventional commit message following the Conventional Commits specification and create the commit automatically.
+Generate a clean, concise conventional commit message and create the commit automatically.
 
 ## Instructions
 
@@ -9,80 +9,70 @@ Analyze current git changes and generate an appropriate conventional commit: **$
 1. **Analyze Git Status and Changes**
 
    ```bash
-   # Check staged changes
    git status --porcelain
    git diff --staged --name-only
    git diff --staged
    ```
 
 2. **Determine Commit Type**
-   - `feat`: New feature for the user
-   - `fix`: Bug fix for the user
+   - `feat`: New feature
+   - `fix`: Bug fix
    - `docs`: Documentation changes
-   - `style`: Code style changes (formatting, semicolons, etc.)
-   - `refactor`: Code changes that neither fix bugs nor add features
+   - `style`: Code style/formatting changes
+   - `refactor`: Code refactoring
    - `perf`: Performance improvements
-   - `test`: Adding or modifying tests
-   - `build`: Changes to build system or dependencies
-   - `ci`: Changes to CI configuration
-   - `chore`: Other changes (maintenance, tooling, etc.)
-   - `revert`: Reverts a previous commit
+   - `test`: Test changes
+   - `build`: Build system or dependency changes
+   - `ci`: CI configuration changes
+   - `chore`: Maintenance and tooling
 
 3. **Identify Scope (Optional)**
-   - Component, module, or area affected
-   - Examples: `auth`, `api`, `ui`, `database`, `config`
-   - Keep scope concise and lowercase
+   - Component or module affected (e.g., `auth`, `api`, `ui`)
+   - Keep concise and lowercase
 
 4. **Generate Commit Message Format**
 
    ```
    type(scope): description
 
-   [optional body]
-
-   [optional footer(s)]
+   [optional body - keep concise]
    ```
 
 5. **Message Guidelines**
    - **Description**: Imperative mood, lowercase, no period (≤50 chars)
-   - **Body**: Explain what and why, wrap at 72 characters
-   - **Footer**: BREAKING CHANGE or issue references
+   - **Body**: Brief explanation of WHAT and WHY (2-3 lines max)
+   - Focus on core features/changes only
+   - **DO NOT include:**
+     - Individual file changes
+     - Test results or pass counts
+     - Testing instructions
+     - Implementation details
+     - Time estimates
 
-6. **Breaking Changes**
-
-   ```
-   feat(api)!: remove deprecated user endpoint
-
-   BREAKING CHANGE: The /api/v1/user endpoint has been removed.
-   Use /api/v2/users instead.
-   ```
-
-7. **Examples**
+6. **Examples**
 
    ```bash
    # Simple feature
    feat(auth): add OAuth2 login support
 
-   # Bug fix with scope
-   fix(api): resolve null pointer in user endpoint
+   # Feature with brief context
+   feat(api): add user export functionality
 
-   # Documentation
-   docs: update installation instructions
+   Allows users to export their data in CSV and JSON formats
 
-   # Dependency update
-   chore(deps): bump lodash to 4.17.21
+   # Bug fix with explanation
+   fix(database): prevent duplicate user entries
+
+   Add unique constraint to email field
 
    # Breaking change
-   feat(database)!: migrate to PostgreSQL
+   feat(api)!: remove deprecated v1 endpoints
 
-   BREAKING CHANGE: SQLite support has been removed.
-   Update connection strings to use PostgreSQL format.
+   BREAKING CHANGE: Use /api/v2 endpoints instead
    ```
 
-8. **Commit Process**
-   - Generate appropriate message based on staged changes
+7. **Commit Process**
+   - Generate appropriate message based on core changes
    - Use `git commit -m "message"` for simple commits
-   - Use `git commit -F -` for multi-line commits with body/footer
-   - Ensure all staged changes are included
-
-Follow the specification strictly to enable automated changelog generation and semantic versioning and never add your signature on the commit message.
+   - Use `git commit -F -` for multi-line commits
+   - Never add your signature to the commit message
