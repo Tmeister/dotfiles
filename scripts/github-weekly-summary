@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Generate a weekly GitHub activity summary in tweet format
+# Usage: github-weekly-summary [days_ago]
+# Default: Shows stats for the past 7 days
+
+set -e
+
+# Number of days to look back (default: 7)
+DAYS_AGO=${1:-7}
+
+# Calculate date range
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    START_DATE=$(date -v-${DAYS_AGO}d -Iseconds)
+    SEARCH_DATE=$(date -v-${DAYS_AGO}d +%Y-%m-%d)
+else
+    # Linux
+    START_DATE=$(date -d "${DAYS_AGO} days ago" -Iseconds)
+    SEARCH_DATE=$(date -d "${DAYS_AGO} days ago" +%Y-%m-%d)
+fi
+
+echo "📊 Fetching GitHub activity from the past ${DAYS_AGO} days..."
+echo ""
+
+# Get commits
+COMMITS=$(gh search commits --author=@me --author-date=">=${START_DATE}" --limit 1000 --json sha 2>/dev/null | jq '. | length')
+
+# Get PRs opened
+PRS_OPENED=$(gh search prs --author=@me --created=">=${SEARCH_DATE}" --limit 100 --json number 2>/dev/null | jq '. | length')
+
+# Get PRs merged
+PRS_MERGED=$(gh search prs --author=@me --merged-at=">=${SEARCH_DATE}" --limit 100 --json number 2>/dev/null | jq '. | length')
+
+# Get issues closed (created or updated by user)
+ISSUES_CLOSED=$(gh search issues --author=@me --closed=">=${SEARCH_DATE}" --limit 100 --json number 2>/dev/null | jq '. | length')
+
+# Get unique repos from commits
+REPOS=$(gh search commits --author=@me --author-date=">=${START_DATE}" --limit 1000 --json repository 2>/dev/null | jq -r '.[].repository.fullName' | sort -u | wc -l | xargs)
+
+# Get lines added from merged PRs
+LINES_ADDED=0
+if [ "${PRS_MERGED:-0}" -gt 0 ]; then
+    # Get merged PRs with additions
+    PRS_WITH_LINES=$(gh search prs --author=@me --merged-at=">=${SEARCH_DATE}" --limit 100 --json repository,number 2>/dev/null)
+
+    # Calculate total lines added
+    LINES_ADDED=$(echo "$PRS_WITH_LINES" | jq -r '.[] | "\(.repository.nameWithOwner)|\(.number)"' | while IFS='|' read -r repo_name pr_num; do
+        gh pr view "$pr_num" -R "$repo_name" --json additions 2>/dev/null | jq -r '.additions // 0'
+    done | awk '{sum+=$1} END {print sum+0}')
+fi
+
+# Default to 0 if empty
+LINES_ADDED=${LINES_ADDED:-0}
+
+# Format lines added for display with comma separators
+LINES_DISPLAY=$(printf "%'d" "$LINES_ADDED" 2>/dev/null || echo "$LINES_ADDED")
+
+# Output the formatted tweet
+cat << EOF
+
+╔════════════════════════════╗
+║   GitHub Weekly Summary    ║
+╚════════════════════════════╝
+
+My week on GitHub 💻✨
+
+📝 ${COMMITS} commits
+🔀 ${PRS_OPENED} PRs opened
+✅ ${PRS_MERGED} PRs merged
+🐛 ${ISSUES_CLOSED} issues closed
+➕ ${LINES_DISPLAY} lines added
+
+📦 Across ${REPOS} repos
+
+🤖 This report was vibecoded
+
+#coding #webdev #buildinpublic
+
+EOF
+
