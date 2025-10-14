@@ -24,6 +24,8 @@ Follow these steps to conduct a code review:
 2. **Analyze CodeRabbit Output**
    - Review the issues, suggestions, and recommendations from CodeRabbit
    - Prioritize issues by severity (critical, high, medium, low)
+   - Summarize the issues to the user
+   - Ask the use what issues want to fix
 
 3. **Fix Issues**
    - Address each issue identified by CodeRabbit
@@ -32,4 +34,4 @@ Follow these steps to conduct a code review:
 
 4. **Verify Fixes**
    - Ensure all critical and high-priority issues are resolved
-   - Run the coderabbit review again if needed to verify fixes
+
