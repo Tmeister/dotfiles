@@ -1,6 +1,6 @@
 # Ignore everything in claude folder
 claude/*
-
+factory/*
 # But don't ignore commands folder and .settings.json
 !claude/commands/
 !claude/commands/**

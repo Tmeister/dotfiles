@@ -11,7 +11,7 @@ if [[ $# -eq 1 ]]; then
   selected=$1
 else
   # I need to clean up this folders
-  selected=$(find ~/Code/Sites ~/Code/Personal ~/Code/Clients/acquira -mindepth 1 -maxdepth 1 -type d | fzf)
+  selected=$(find ~/Code/Sites ~/Code/Personal ~/Code/Clients/acquira ~/Code/OpenSource -mindepth 1 -maxdepth 1 -type d | fzf)
   # selected=$(find ~/Code/Sites ~/Code/Personal ~/Code/Clients/acquira ~/Code/Gigs/wpscope -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 

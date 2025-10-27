@@ -24,10 +24,10 @@ style = "ExtraBold Italic"
 
 
 [font.offset]
-y = 18
+y = 12
 
 [font.glyph_offset]
-y = 9
+y = 6
 
 [window]
 padding.x = 16
@@ -39,6 +39,8 @@ opacity = 0.975
 [keyboard]
 bindings = [
   { key = "F11", action = "ToggleFullscreen" },
+{ key = "Insert", mods = "Shift", action = "Paste" },
+{ key = "Insert", mods = "Control", action = "Copy" },
 
   # Navigation keybindings (migrated from Ghostty - Linux version)
   { key = "Right", mods = "Control", chars = "\u0005" }, # Ctrl+E (end of line)
