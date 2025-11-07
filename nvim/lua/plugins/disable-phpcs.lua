@@ -12,7 +12,7 @@ return {
   
   -- Also ensure phpcs is not installed by Mason
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = function(_, opts)
       -- Remove phpcs from ensure_installed
       opts.ensure_installed = opts.ensure_installed or {}

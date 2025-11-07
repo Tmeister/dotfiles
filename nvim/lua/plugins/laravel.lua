@@ -6,6 +6,7 @@ return {
       "tpope/vim-dotenv",
       "MunifTanjim/nui.nvim",
       "kevinhwang91/promise-async",
+      "nvim-neotest/nvim-nio",
     },
     cmd = { "Sail", "Artisan", "Composer", "Npm", "Yarn", "Laravel" },
     keys = {
@@ -14,7 +15,7 @@ return {
       { "<leader>Lc", "<cmd>Laravel composer<cr>", desc = "Laravel composer" },
       { "<leader>Ln", "<cmd>Laravel npm<cr>", desc = "Laravel npm" },
     },
-    event = { "VeryLazy" },
+    event = { "BufReadPre *.php" },
     opts = {
       lsp_server = "phpactor",
       features = {

@@ -11,7 +11,7 @@ return {
     },
   },
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = function(_, opts)
       -- Ensure grammarly-languageserver is not automatically installed
       opts.ensure_installed = opts.ensure_installed or {}
