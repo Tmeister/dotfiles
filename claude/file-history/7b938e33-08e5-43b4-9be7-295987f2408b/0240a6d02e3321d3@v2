@@ -1,0 +1,158 @@
+#!/usr/bin/env bash
+#
+# omarchy-diff - Compare omarchy's defaults with your dotfiles
+#
+# Usage:
+#   omarchy-diff           # Show recent omarchy changes
+#   omarchy-diff hypr      # Compare hypr configs
+#   omarchy-diff walker    # Compare walker configs
+#   omarchy-diff waybar    # Compare waybar configs
+#
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+OMARCHY_DIR="$HOME/.local/share/omarchy"
+DOTFILES_DIR="$HOME/.dotfiles"
+
+show_usage() {
+    echo -e "${BLUE}omarchy-diff${NC} - Compare omarchy configs with dotfiles"
+    echo ""
+    echo "Usage:"
+    echo "  omarchy-diff              # Show recent omarchy changes"
+    echo "  omarchy-diff hypr         # Compare Hyprland configs"
+    echo "  omarchy-diff walker       # Compare Walker configs"
+    echo "  omarchy-diff waybar       # Compare Waybar configs"
+    echo "  omarchy-diff log [N]      # Show last N commits (default: 20)"
+    echo ""
+}
+
+show_recent_changes() {
+    local count=${1:-20}
+
+    echo -e "${BLUE}Recent Omarchy Changes (last $count commits)${NC}"
+    echo -e "${BLUE}========================================${NC}"
+    echo ""
+
+    cd "$OMARCHY_DIR" || exit 1
+
+    git log --oneline --color=always -"$count"
+
+    echo ""
+    echo -e "${YELLOW}To see details of a specific commit:${NC}"
+    echo -e "  cd ~/.local/share/omarchy && git show <commit-hash>"
+    echo ""
+}
+
+compare_configs() {
+    local app=$1
+    local omarchy_path=""
+    local dotfiles_path=""
+
+    case "$app" in
+        hypr|hyprland)
+            omarchy_path="$OMARCHY_DIR/default/hypr"
+            dotfiles_path="$DOTFILES_DIR/hypr/.config/hypr"
+            app_name="Hyprland"
+            ;;
+        walker)
+            omarchy_path="$OMARCHY_DIR/default/walker"
+            dotfiles_path="$DOTFILES_DIR/walker/.config/walker"
+            app_name="Walker"
+            ;;
+        waybar)
+            omarchy_path="$OMARCHY_DIR/default/waybar"
+            dotfiles_path="$DOTFILES_DIR/waybar/.config/waybar"
+            app_name="Waybar"
+            ;;
+        nvim|neovim)
+            omarchy_path="$OMARCHY_DIR/config/nvim"
+            dotfiles_path="$DOTFILES_DIR/nvim/.config/nvim"
+            app_name="Neovim"
+            ;;
+        *)
+            echo -e "${RED}Unknown application: $app${NC}"
+            echo ""
+            show_usage
+            exit 1
+            ;;
+    esac
+
+    if [ ! -d "$omarchy_path" ]; then
+        echo -e "${RED}Omarchy config not found: $omarchy_path${NC}"
+        exit 1
+    fi
+
+    if [ ! -d "$dotfiles_path" ]; then
+        echo -e "${RED}Dotfiles config not found: $dotfiles_path${NC}"
+        exit 1
+    fi
+
+    echo -e "${BLUE}Comparing $app_name Configs${NC}"
+    echo -e "${BLUE}========================================${NC}"
+    echo -e "${CYAN}Omarchy:${NC}  $omarchy_path"
+    echo -e "${CYAN}Dotfiles:${NC} $dotfiles_path"
+    echo ""
+
+    # Show file structure comparison
+    echo -e "${YELLOW}File Structure:${NC}"
+    echo ""
+    echo -e "${CYAN}Omarchy files:${NC}"
+    find "$omarchy_path" -type f | sed "s|$omarchy_path/|  |" | sort
+    echo ""
+    echo -e "${CYAN}Dotfiles files:${NC}"
+    find "$dotfiles_path" -type f | sed "s|$dotfiles_path/|  |" | sort
+    echo ""
+
+    # Detailed diff
+    echo -e "${YELLOW}Differences:${NC}"
+    echo ""
+
+    if command -v diff &> /dev/null; then
+        # Use color diff if available
+        if command -v colordiff &> /dev/null; then
+            diff -r "$omarchy_path" "$dotfiles_path" | colordiff || true
+        else
+            diff -r "$omarchy_path" "$dotfiles_path" || true
+        fi
+    else
+        echo -e "${YELLOW}Install 'diff' for detailed comparison${NC}"
+    fi
+
+    echo ""
+    echo -e "${BLUE}========================================${NC}"
+    echo -e "${GREEN}Tip:${NC} Use 'meld $omarchy_path $dotfiles_path' for visual diff"
+    echo ""
+}
+
+# Main script
+if [ $# -eq 0 ]; then
+    show_recent_changes 20
+    exit 0
+fi
+
+case "$1" in
+    -h|--help|help)
+        show_usage
+        ;;
+    log)
+        count=${2:-20}
+        show_recent_changes "$count"
+        ;;
+    hypr|hyprland|walker|waybar|nvim|neovim)
+        compare_configs "$1"
+        ;;
+    *)
+        echo -e "${RED}Unknown command: $1${NC}"
+        echo ""
+        show_usage
+        exit 1
+        ;;
+esac

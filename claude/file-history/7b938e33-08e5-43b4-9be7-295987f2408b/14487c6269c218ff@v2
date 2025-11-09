@@ -1,0 +1,276 @@
+#!/usr/bin/env bash
+#
+# Dotfiles Installation Script
+#
+# Deploys dotfiles using GNU Stow
+# Handles backups and creates necessary directories
+#
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKUP_DIR="$HOME/.dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
+
+echo -e "${BLUE}╔══════════════════════════════════╗${NC}"
+echo -e "${BLUE}║   Dotfiles Installation Script   ║${NC}"
+echo -e "${BLUE}╚══════════════════════════════════╝${NC}"
+echo ""
+echo -e "${CYAN}Dotfiles directory:${NC} $DOTFILES_DIR"
+echo ""
+
+# 1. Check if stow is installed
+echo -e "${YELLOW}[1/7]${NC} Checking dependencies..."
+
+if ! command -v stow &> /dev/null; then
+    echo -e "${RED}✗ GNU Stow is not installed${NC}"
+    echo ""
+    echo "Please install stow first:"
+    echo "  sudo pacman -S stow     # Arch Linux"
+    echo "  sudo apt install stow   # Debian/Ubuntu"
+    echo "  brew install stow       # macOS"
+    exit 1
+fi
+
+echo -e "${GREEN}✓ GNU Stow $(stow --version | head -1 | awk '{print $NF}')${NC}"
+echo ""
+
+# 2. List available packages
+echo -e "${YELLOW}[2/7]${NC} Available stow packages:"
+echo ""
+
+PACKAGES=(
+    "zsh:Shell configuration with zinit"
+    "hypr:Hyprland window manager (omarchy override)"
+    "walker:Walker launcher (omarchy override)"
+    "waybar:Waybar status bar (omarchy override)"
+    "nvim:Neovim configuration (omarchy override)"
+    "alacritty:Alacritty terminal"
+    "ghostty:Ghostty terminal"
+    "tmux:Tmux terminal multiplexer"
+    "starship:Starship prompt"
+    "ohmyposh:Oh My Posh prompt"
+    "claude:Claude Code configuration"
+    "scripts:Custom scripts and omarchy hooks"
+)
+
+for pkg in "${PACKAGES[@]}"; do
+    IFS=':' read -r name desc <<< "$pkg"
+    if [ -d "$DOTFILES_DIR/$name" ]; then
+        echo -e "  ${GREEN}✓${NC} ${CYAN}$name${NC} - $desc"
+    else
+        echo -e "  ${RED}✗${NC} ${CYAN}$name${NC} - ${RED}directory not found${NC}"
+    fi
+done
+
+echo ""
+
+# 3. Detect conflicts
+echo -e "${YELLOW}[3/7]${NC} Checking for conflicts..."
+echo ""
+
+CONFLICTS=()
+
+for pkg in "${PACKAGES[@]}"; do
+    IFS=':' read -r name desc <<< "$pkg"
+
+    if [ ! -d "$DOTFILES_DIR/$name" ]; then
+        continue
+    fi
+
+    cd "$DOTFILES_DIR/$name" || continue
+
+    # Find all files/dirs in package
+    while IFS= read -r -d '' file; do
+        # Remove leading ./
+        file="${file#./}"
+
+        # Skip if empty
+        [ -z "$file" ] && continue
+
+        target="$HOME/$file"
+
+        # Check if target exists and is not a symlink to our dotfiles
+        if [ -e "$target" ] || [ -L "$target" ]; then
+            if [ -L "$target" ]; then
+                link_target=$(readlink -f "$target")
+                dotfiles_target=$(readlink -f "$DOTFILES_DIR/$name/$file" 2>/dev/null || echo "")
+
+                # Skip if already linked correctly
+                if [ "$link_target" = "$dotfiles_target" ]; then
+                    continue
+                fi
+            fi
+
+            # This is a conflict
+            CONFLICTS+=("$name:$file")
+        fi
+    done < <(find . -mindepth 1 \( -type f -o -type d -o -type l \) -print0)
+
+    cd "$DOTFILES_DIR" || exit 1
+done
+
+if [ ${#CONFLICTS[@]} -gt 0 ]; then
+    echo -e "${YELLOW}Found ${#CONFLICTS[@]} potential conflict(s):${NC}"
+    echo ""
+
+    for conflict in "${CONFLICTS[@]}"; do
+        IFS=':' read -r pkg file <<< "$conflict"
+        echo -e "  ${YELLOW}⚠${NC} $file (from package: ${CYAN}$pkg${NC})"
+    done
+
+    echo ""
+    echo -e "${YELLOW}These files will be backed up to:${NC}"
+    echo -e "  $BACKUP_DIR"
+    echo ""
+
+    read -p "Continue with backup and installation? (y/N) " -n 1 -r
+    echo ""
+
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo -e "${RED}Installation cancelled${NC}"
+        exit 1
+    fi
+
+    # 4. Create backups
+    echo ""
+    echo -e "${YELLOW}[4/7]${NC} Creating backups..."
+    mkdir -p "$BACKUP_DIR"
+
+    for conflict in "${CONFLICTS[@]}"; do
+        IFS=':' read -r pkg file <<< "$conflict"
+        target="$HOME/$file"
+
+        if [ -e "$target" ] || [ -L "$target" ]; then
+            backup_path="$BACKUP_DIR/$file"
+            mkdir -p "$(dirname "$backup_path")"
+
+            if mv "$target" "$backup_path"; then
+                echo -e "  ${GREEN}✓${NC} Backed up: ~/$file"
+            else
+                echo -e "  ${RED}✗${NC} Failed to backup: ~/$file"
+            fi
+        fi
+    done
+
+    echo -e "${GREEN}✓ Backups created in $BACKUP_DIR${NC}"
+else
+    echo -e "${GREEN}✓ No conflicts detected${NC}"
+    echo -e "${YELLOW}[4/7]${NC} Skipping backup (not needed)"
+fi
+
+echo ""
+
+# 5. Create necessary directories
+echo -e "${YELLOW}[5/7]${NC} Creating necessary directories..."
+
+REQUIRED_DIRS=(
+    "$HOME/.config"
+    "$HOME/.local/bin"
+    "$HOME/.config/omarchy/hooks"
+    "$HOME/.config/zsh"
+)
+
+for dir in "${REQUIRED_DIRS[@]}"; do
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir"
+        echo -e "  ${GREEN}✓${NC} Created: ${dir/#$HOME/~}"
+    else
+        echo -e "  ${CYAN}→${NC} Exists: ${dir/#$HOME/~}"
+    fi
+done
+
+echo ""
+
+# 6. Stow packages
+echo -e "${YELLOW}[6/7]${NC} Installing dotfiles with stow..."
+echo ""
+
+cd "$DOTFILES_DIR" || exit 1
+
+STOW_FAILED=()
+
+for pkg in "${PACKAGES[@]}"; do
+    IFS=':' read -r name desc <<< "$pkg"
+
+    if [ ! -d "$name" ]; then
+        continue
+    fi
+
+    if stow --verbose=1 "$name" 2>&1 | grep -q "ERROR"; then
+        echo -e "  ${RED}✗${NC} Failed: ${CYAN}$name${NC}"
+        STOW_FAILED+=("$name")
+    else
+        stow --restow "$name" &>/dev/null
+        echo -e "  ${GREEN}✓${NC} Stowed: ${CYAN}$name${NC}"
+    fi
+done
+
+echo ""
+
+# 7. Post-installation
+echo -e "${YELLOW}[7/7]${NC} Post-installation tasks..."
+echo ""
+
+# Make scripts executable
+if [ -d "$HOME/.local/bin" ]; then
+    chmod +x "$HOME/.local/bin"/* 2>/dev/null || true
+    echo -e "  ${GREEN}✓${NC} Made scripts executable"
+fi
+
+# Verify omarchy hook
+if [ -f "$HOME/.config/omarchy/hooks/post-update" ]; then
+    chmod +x "$HOME/.config/omarchy/hooks/post-update"
+    echo -e "  ${GREEN}✓${NC} Omarchy post-update hook installed"
+else
+    echo -e "  ${YELLOW}⚠${NC} Omarchy post-update hook not found"
+fi
+
+echo ""
+echo -e "${BLUE}╔══════════════════════════════════╗${NC}"
+echo -e "${BLUE}║     Installation Complete!       ║${NC}"
+echo -e "${BLUE}╚══════════════════════════════════╝${NC}"
+echo ""
+
+if [ ${#STOW_FAILED[@]} -gt 0 ]; then
+    echo -e "${YELLOW}⚠ Some packages failed to install:${NC}"
+    for pkg in "${STOW_FAILED[@]}"; do
+        echo -e "  - ${RED}$pkg${NC}"
+    done
+    echo ""
+    echo -e "${YELLOW}Try running manually:${NC}"
+    echo -e "  cd ~/.dotfiles && stow --verbose=2 <package-name>"
+    echo ""
+fi
+
+# Show next steps
+echo -e "${CYAN}Next steps:${NC}"
+echo ""
+echo -e "1. Reload your shell:"
+echo -e "   ${BLUE}exec zsh${NC}"
+echo ""
+echo -e "2. Check your customizations:"
+echo -e "   ${BLUE}omarchy-customizations${NC}"
+echo ""
+echo -e "3. Review omarchy integration:"
+echo -e "   ${BLUE}cat ~/.dotfiles/OMARCHY.md${NC}"
+echo ""
+echo -e "4. Compare with omarchy defaults:"
+echo -e "   ${BLUE}omarchy-diff${NC}"
+echo ""
+
+if [ -d "$BACKUP_DIR" ]; then
+    echo -e "${YELLOW}Backup location:${NC} $BACKUP_DIR"
+    echo -e "${YELLOW}You can safely delete the backup once you've verified everything works.${NC}"
+    echo ""
+fi
+
+echo -e "${GREEN}Happy coding! 🚀${NC}"
+echo ""

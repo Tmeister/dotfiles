@@ -1,1 +1,0 @@
-Blade: 4 spaces, @if($var) no spaces, {{ __() }} for translations, camelCase views

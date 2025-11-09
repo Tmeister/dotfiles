@@ -1,0 +1,20 @@
+# GNU Stow configuration
+# This file is automatically read by stow
+
+# Target directory (where symlinks will be created)
+--target=$HOME
+
+# Ignore these patterns
+--ignore='^\.git'
+--ignore='^\.gitignore'
+--ignore='^README\.md'
+--ignore='^OMARCHY\.md'
+--ignore='^MIGRATION\.md'
+--ignore='\.backup$'
+--ignore='\.om$'
+--ignore='^install\.sh'
+--ignore='^restow\.sh'
+--ignore='^factory'
+--ignore='^karabiner'
+--ignore='^\.claude$'
+--ignore='^\.DS_Store'

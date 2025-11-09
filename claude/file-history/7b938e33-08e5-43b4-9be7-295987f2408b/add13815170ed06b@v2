@@ -1,0 +1,169 @@
+#!/usr/bin/env bash
+#
+# omarchy-customizations - List all active omarchy overrides
+#
+# Shows which omarchy configs you've overridden and why
+#
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
+NC='\033[0m'
+
+echo -e "${BLUE}════════════════════════════════════${NC}"
+echo -e "${BLUE}   Omarchy Customizations Summary   ${NC}"
+echo -e "${BLUE}════════════════════════════════════${NC}"
+echo ""
+
+# 1. Overridden Directories
+echo -e "${YELLOW}[1] Overridden Config Directories${NC}"
+echo ""
+
+CONFIGS=(
+    "hypr:Hyprland window manager:Complete directory override via dotfiles"
+    "walker:Walker application launcher:Complete directory override via dotfiles"
+    "waybar:Waybar status bar:Complete directory override via dotfiles"
+    "nvim:Neovim text editor:Complete directory override via dotfiles"
+    "alacritty:Alacritty terminal:Complete directory override via dotfiles"
+)
+
+for config in "${CONFIGS[@]}"; do
+    IFS=':' read -r dir name desc <<< "$config"
+    config_path="$HOME/.config/$dir"
+
+    if [ -L "$config_path" ]; then
+        target=$(readlink -f "$config_path")
+        if [[ "$target" == *".dotfiles"* ]]; then
+            echo -e "  ${GREEN}✓${NC} ${CYAN}$name${NC}"
+            echo -e "    Path: ~/.config/$dir → dotfiles"
+            echo -e "    Type: $desc"
+            echo ""
+        fi
+    else
+        echo -e "  ${RED}✗${NC} ${CYAN}$name${NC}"
+        echo -e "    Path: ~/.config/$dir"
+        echo -e "    Status: ${RED}NOT overridden (not a symlink)${NC}"
+        echo ""
+    fi
+done
+
+# 2. Custom Scripts
+echo -e "${YELLOW}[2] Custom Scripts (PATH Precedence)${NC}"
+echo ""
+
+SCRIPTS=(
+    "omarchy-menu:Changes walker theme to 'omarchy-menu' (Raycast-like):Prevents omarchy's default walker theme"
+    "tmux-sessionizer:ThePrimeagen's project switcher:Custom workflow tool"
+    "github-weekly-summary:Weekly GitHub activity report:Custom productivity script"
+)
+
+for script in "${SCRIPTS[@]}"; do
+    IFS=':' read -r name desc overrides <<< "$script"
+    script_path=$(which "$name" 2>/dev/null || echo "")
+
+    if [ -n "$script_path" ]; then
+        if [[ "$script_path" == "$HOME/.local/bin/$name" ]]; then
+            echo -e "  ${GREEN}✓${NC} ${CYAN}$name${NC}"
+            echo -e "    Path: ~/.local/bin/$name"
+            echo -e "    Purpose: $desc"
+            echo -e "    Overrides: $overrides"
+            echo ""
+        else
+            echo -e "  ${YELLOW}⚠${NC} ${CYAN}$name${NC}"
+            echo -e "    Path: $script_path ${YELLOW}(unexpected location)${NC}"
+            echo -e "    Purpose: $desc"
+            echo ""
+        fi
+    else
+        echo -e "  ${RED}✗${NC} ${CYAN}$name${NC}"
+        echo -e "    Status: ${RED}Not found in PATH${NC}"
+        echo ""
+    fi
+done
+
+# 3. Key Customizations
+echo -e "${YELLOW}[3] Major Configuration Changes${NC}"
+echo ""
+
+echo -e "  ${MAGENTA}Hyprland (bindings.conf)${NC}"
+echo -e "    • Launcher: SUPER+SPACE → ${CYAN}Vicinae${NC} (instead of omarchy-menu)"
+echo -e "    • Terminal: Uses ${CYAN}\$TERMINAL${NC} var (75% keyboard compat)"
+echo -e "    • Screenshot: ${CYAN}HOME${NC} key (instead of PRINT for 75% keyboard)"
+echo -e "    • Apps: Gmail, Claude, Inkdrop, DeepL"
+echo -e "    • Walker: Clipboard (SUPER+V), Emoji (SUPER+.)"
+echo ""
+
+echo -e "  ${MAGENTA}Waybar (config.jsonc)${NC}"
+echo -e "    • Workspaces: ${CYAN}Dual monitor${NC} (DP-1: 1-5, HDMI-A-1: 6-10)"
+echo -e "    • Updates: Check every ${CYAN}1 hour${NC} (vs 6 hours default)"
+echo -e "    • Workspace count: ${CYAN}10${NC} (vs 9 default)"
+echo ""
+
+echo -e "  ${MAGENTA}Walker (config.toml)${NC}"
+echo -e "    • Theme: ${CYAN}omarchy-menu${NC} (Raycast-inspired)"
+echo -e "    • Still uses omarchy's theme files as base"
+echo ""
+
+# 4. Omarchy Files We Still Use
+echo -e "${YELLOW}[4] Omarchy Defaults Still Sourced${NC}"
+echo ""
+
+SOURCED_FILES=(
+    "~/.local/share/omarchy/default/hypr/autostart.conf"
+    "~/.local/share/omarchy/default/hypr/bindings/media.conf"
+    "~/.local/share/omarchy/default/hypr/bindings/tiling-v2.conf"
+    "~/.config/omarchy/current/theme/hyprland.conf"
+)
+
+for file in "${SOURCED_FILES[@]}"; do
+    if [ -f "$file" ]; then
+        echo -e "  ${GREEN}✓${NC} ${file/#$HOME/~}"
+    else
+        echo -e "  ${RED}✗${NC} ${file/#$HOME/~} ${RED}(missing)${NC}"
+    fi
+done
+
+echo ""
+
+# 5. Protection Status
+echo -e "${YELLOW}[5] Override Protection Status${NC}"
+echo ""
+
+if [ -f "$HOME/.config/omarchy/hooks/post-update" ]; then
+    echo -e "  ${GREEN}✓${NC} Post-update hook: ${GREEN}Active${NC}"
+    echo -e "    Automatically verifies overrides after omarchy updates"
+else
+    echo -e "  ${YELLOW}⚠${NC} Post-update hook: ${YELLOW}Not installed${NC}"
+    echo -e "    Run: ${CYAN}stow scripts${NC} from ~/.dotfiles to install"
+fi
+
+echo ""
+
+# Check PATH precedence
+if echo "$PATH" | grep -q "$HOME/.local/bin"; then
+    path_pos=$(echo "$PATH" | tr ':' '\n' | grep -n "$HOME/.local/bin" | head -1 | cut -d: -f1)
+    if [ "$path_pos" -le 3 ]; then
+        echo -e "  ${GREEN}✓${NC} PATH precedence: ~/.local/bin at position $path_pos ${GREEN}(good)${NC}"
+    else
+        echo -e "  ${YELLOW}⚠${NC} PATH precedence: ~/.local/bin at position $path_pos ${YELLOW}(consider moving earlier)${NC}"
+    fi
+else
+    echo -e "  ${RED}✗${NC} PATH precedence: ~/.local/bin ${RED}not in PATH${NC}"
+fi
+
+echo ""
+echo -e "${BLUE}════════════════════════════════════${NC}"
+echo ""
+echo -e "${CYAN}Documentation:${NC} ~/.dotfiles/OMARCHY.md"
+echo -e "${CYAN}Helper commands:${NC}"
+echo -e "  omarchy-diff           # Compare with omarchy defaults"
+echo -e "  omarchy-diff hypr      # Detailed hypr comparison"
+echo -e "  omarchy-diff log       # Recent omarchy changes"
+echo ""
+echo -e "${BLUE}════════════════════════════════════${NC}"

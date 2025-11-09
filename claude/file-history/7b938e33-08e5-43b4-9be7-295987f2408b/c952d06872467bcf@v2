@@ -4,42 +4,25 @@ Personal dotfiles configuration for Arch Linux with Hyprland and Omarchy.
 
 ## Quick Start
 
-### TL;DR - Fresh Installation
+### Fresh Installation
 
 ```bash
-# 1. Clone and navigate
-git clone <your-repo-url> ~/.dotfiles && cd ~/.dotfiles
+# 1. Clone dotfiles
+git clone <your-repo-url> ~/.dotfiles
+cd ~/.dotfiles
 
-# 2. Install stow
+# 2. Install GNU Stow (if not already installed)
 sudo pacman -S stow
 
-# 3. Install dependencies (includes zsh, prompts to change shell)
-./install-deps.sh
-# Script will ask: "Change shell to zsh? (Y/n)"
-# Answer Y, then logout/login before continuing
-
-# 4. Deploy dotfiles and reload shell (after logout/login)
-./install.sh && exec zsh
-
-# 5. Reload Hyprland (SUPER+ESC → Relaunch)
+# 3. Run installation script
+./install.sh
 ```
 
-**That's it!** See [`INSTALL-GUIDE.md`](./INSTALL-GUIDE.md) for complete step-by-step process.
-
-### What Gets Installed
-
-**Dependencies:**
-- vicinae, cliphist, walker, rofimoji, jq, wireplumber, etc.
-
-**Dotfiles:**
-- Shell config, Hyprland overrides, scripts, hooks
-
-**Configuration:**
-- Hyprland overrides seeded
-- Custom scripts in PATH
-- Post-update hook active
-
-See [`DEPENDENCIES.md`](./DEPENDENCIES.md) for complete dependency list.
+The installer will:
+- Check for conflicts and create backups
+- Deploy all configs using stow
+- Set up custom scripts and omarchy hooks
+- Configure PATH precedence
 
 ### Updating Dotfiles
 
@@ -53,29 +36,6 @@ To restow specific packages:
 ```bash
 ./restow.sh zsh hypr  # Only restow zsh and hypr
 ```
-
-## Dependencies
-
-This configuration requires specific programs. See [`DEPENDENCIES.md`](./DEPENDENCIES.md) for complete details.
-
-### Quick Install
-
-```bash
-./install-deps.sh           # Interactive (recommended)
-./install-deps.sh --minimal # Only critical
-./install-deps.sh --all     # Everything
-./install-deps.sh --check   # Check status
-```
-
-### Critical Programs
-
-- **vicinae** - Launcher (SUPER+SPACE)
-- **cliphist** - Clipboard history
-- **walker** - Clipboard UI
-- **rofimoji** - Emoji picker (SUPER+.)
-- **jq** - JSON parsing (scripts)
-- **wireplumber** - Audio control
-- **pipewire-pulse** - Audio streams
 
 ## Package Structure
 
@@ -150,7 +110,6 @@ When you run `omarchy-update`:
 
 1. **Automatic Hook** (`~/.config/omarchy/hooks/post-update`):
    - Verifies all symlinks intact
-   - Re-seeds Hyprland overrides
    - Shows what changed in omarchy
    - Checks PATH precedence
 
@@ -166,40 +125,6 @@ When you run `omarchy-update`:
    - Manually add to your dotfiles
    - Commit with note
 
-## Omarchy Override System
-
-### Problem Solved
-Your Hyprland customizations (Vicinae launcher, 75% keyboard, custom scripts, dual monitor setup) are now protected from omarchy updates using a modular override system.
-
-### How It Works
-- **Override files** in `hypr/.config/hypr/overrides/` contain your customizations
-- **omarchy-seed-config** script injects source lines into hyprland.conf
-- **Post-update hook** automatically re-seeds after omarchy updates
-- **Idempotent** - safe to run multiple times
-
-### Quick Start
-```bash
-# Seed configuration (done automatically by install.sh)
-omarchy-seed-config
-
-# Check if seeded
-omarchy-seed-config --check
-
-# View your overrides
-omarchy-customizations
-```
-
-### Override Files
-- `bindings.conf` - Launcher, 75% keyboard, custom scripts
-- `monitors.conf` - Dual monitor setup
-- `workspaces.conf` - Workspace assignments
-- `windows.conf` - Vicinae, JetBrains fixes
-- `input.conf` - Keyboard, mouse settings
-- `envs.conf` - Font rendering, Java fixes
-- `autostart.conf` - Vicinae, cliphist
-
-See [`HYPR-OVERRIDES.md`](./HYPR-OVERRIDES.md) for complete documentation.
-
 ## Helper Commands
 
 ### Omarchy Tools
@@ -209,8 +134,6 @@ omarchy-customizations    # List all active overrides
 omarchy-diff              # Show recent omarchy changes
 omarchy-diff hypr         # Compare hypr configs with omarchy
 omarchy-diff log 20       # Show last 20 omarchy commits
-omarchy-seed-config       # Seed Hyprland config with overrides
-omarchy-seed-config --check  # Check if already seeded
 ```
 
 ### Stow Management
@@ -222,6 +145,43 @@ omarchy-seed-config --check  # Check if already seeded
 stow --adopt <package>    # Adopt conflicting files into dotfiles
 stow --delete <package>   # Remove package symlinks
 ```
+
+## Walker Launcher Customizations
+
+### Raycast-Inspired Theme
+
+Custom Walker theme that mimics Raycast's clean, modern design with dynamic Omarchy colors.
+
+#### Files
+
+**Theme Files:**
+- `walker/.config/walker/custom-theme.css` - Main Walker launcher theme (Super + Space)
+- `walker/.config/walker/omarchy-menu.css` - Omarchy menu theme
+- `walker/.config/walker/omarchy-menu.toml` - Menu sizing and configuration
+- `walker/.config/walker/config.toml` - Walker configuration with theme settings
+
+**Custom Script:**
+- `scripts/.local/bin/omarchy-menu` - Overrides omarchy's version with custom theme
+
+#### Features
+
+- **Raycast-style design** with rounded corners (4px radius)
+- **Dynamic colors** from Omarchy theme (`@base`, `@text`, `@selected-text`, `@border`)
+- **Dark semi-transparent background** with backdrop blur
+- **Clean typography** using Liberation Sans font
+- **Subtle hover effects** (5-6% opacity)
+- **Minimal scrollbar** design
+- **No animations** for instant response
+
+#### How Custom omarchy-menu Works
+
+Our custom `omarchy-menu` script lives at `~/.local/bin/omarchy-menu` and takes precedence over omarchy's version because:
+
+1. `~/.local/bin` is **first in PATH** (see `zsh/.zshrc:121`)
+2. Omarchy's version is at `/home/tmeister/.local/share/omarchy/bin/omarchy-menu`
+3. When you press the keybinding, our version runs
+
+**After omarchy updates**, the hook automatically verifies this precedence.
 
 ## Hyprland Bindings
 
@@ -289,21 +249,10 @@ Generate weekly GitHub activity reports.
 
 ## Documentation
 
-### Getting Started
-- **[`INSTALL-GUIDE.md`](./INSTALL-GUIDE.md)** - **⭐ Complete installation process (start here!)**
-- [`DEPENDENCIES.md`](./DEPENDENCIES.md) - Required programs and installation
-
-### Configuration
-- [`OMARCHY.md`](./OMARCHY.md) - Omarchy integration guide
-- [`HYPR-OVERRIDES.md`](./HYPR-OVERRIDES.md) - Hyprland override system
-
-### Scripts
-- [`install.sh`](./install.sh) - Dotfiles installation script
-- [`install-deps.sh`](./install-deps.sh) - Dependency installer
-- [`restow.sh`](./restow.sh) - Restow helper script
-
-### Reference
+- [`OMARCHY.md`](./OMARCHY.md) - Complete omarchy override documentation
 - [`MIGRATION.md`](./MIGRATION.md) - Stow migration notes
+- [`install.sh`](./install.sh) - Installation script with comments
+- [`restow.sh`](./restow.sh) - Restow helper script
 
 ## Backup Strategy
 

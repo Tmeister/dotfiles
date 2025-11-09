@@ -1,0 +1,294 @@
+# Omarchy Override Documentation
+
+This document tracks all customizations and overrides made to the Omarchy configuration system.
+
+## Understanding Omarchy's Configuration Architecture
+
+Omarchy uses a three-tier configuration system:
+
+### 1. Default Layer (`~/.local/share/omarchy/default/`)
+- **Purpose**: Read-only reference configurations
+- **Location**: `~/.local/share/omarchy/default/`
+- **Behavior**: Sourced directly by applications (e.g., Hyprland)
+- **Updates**: Updated when you run `omarchy-update`
+- **DO NOT MODIFY**: These are templates managed by omarchy
+
+### 2. Config Layer (`~/.local/share/omarchy/config/`)
+- **Purpose**: Initial configs copied during installation
+- **Location**: `~/.local/share/omarchy/config/`
+- **Behavior**: Copied to `~/.config/` during installation
+- **Updates**: Updated via migration scripts during `omarchy-update`
+- **Status**: Bypassed by our dotfiles approach
+
+### 3. User Override Layer (`~/.config/`)
+- **Purpose**: User customizations that take precedence
+- **Location**: `~/.config/`
+- **Behavior**: Our dotfiles symlink here via stow
+- **Updates**: Protected from omarchy updates
+- **Status**: **This is where we override everything**
+
+## Our Override Strategy
+
+We use **complete directory replacement** via symlinks. Instead of modifying omarchy's configs, we replace entire directories with symlinks to our dotfiles.
+
+### Overridden Directories
+
+| Application | Dotfiles Location | Target Location | Override Type |
+|------------|-------------------|-----------------|---------------|
+| Hyprland | `~/.dotfiles/hypr/.config/hypr/` | `~/.config/hypr` | Complete |
+| Walker | `~/.dotfiles/walker/.config/walker/` | `~/.config/walker` | Complete |
+| Waybar | `~/.dotfiles/waybar/.config/waybar/` | `~/.config/waybar` | Complete |
+| Neovim | `~/.dotfiles/nvim/.config/nvim/` | `~/.config/nvim` | Complete |
+
+### Custom Scripts
+
+| Script | Location | Purpose | Overrides |
+|--------|----------|---------|-----------|
+| `omarchy-menu` | `~/.local/bin/omarchy-menu` | Custom launcher theme | `/home/tmeister/.local/share/omarchy/bin/omarchy-menu` |
+| `tmux-sessionizer` | `~/.local/bin/tmux-sessionizer` | ThePrimeagen's workflow tool | N/A |
+| `github-weekly-summary` | `~/.local/bin/github-weekly-summary` | GitHub activity script | N/A |
+
+**Note**: Our custom scripts in `~/.local/bin/` take precedence because `~/.local/bin` is **FIRST** in PATH (see `.zshrc:121`).
+
+## Detailed Customizations
+
+### Hyprland (`hypr/.config/hypr/`)
+
+#### Key Files Overridden:
+- `bindings.conf` - Complete keybinding overhaul
+- `monitors.conf` - Multi-monitor configuration
+- `windows.conf` - Window rules
+- `hyprland.conf` - Main config (still sources omarchy defaults)
+
+#### Major Changes in `bindings.conf`:
+
+**Launcher Changes:**
+- **Removed**: Default `SUPER + SPACE` → omarchy-menu
+- **Added**: `SUPER + SPACE` → vicinae (custom launcher)
+- **Reason**: Vicinae provides better Raycast-like experience
+
+**Terminal Binding:**
+- **Changed**: `uwsm-app -- xdg-terminal-exec` → `uwsm app -- $TERMINAL`
+- **Reason**: Compatibility with omarchy's xdg-terminal-exec migration
+- **File**: `bindings.conf:16`
+
+**75% Keyboard Support:**
+- **Changed**: Screenshot from `PRINT` → `HOME` key
+- **Reason**: 75% keyboard layout doesn't have dedicated PRINT key
+- **File**: `bindings.conf`
+
+**Application Launchers:**
+| Binding | Application | Customization |
+|---------|-------------|---------------|
+| `SUPER + B` | Brave Browser | Changed to personal preference |
+| `SUPER + M` | Gmail | Changed from Hey email |
+| `SUPER + C` | Claude | Changed from Google Calendar |
+| `SUPER + I` | Inkdrop | Added custom note app |
+| `SUPER + D` | DeepL | Added translation tool |
+| `SUPER + O` | Obsidian | Modified window regex |
+
+**Walker Integration:**
+- **Added**: `SUPER + V` → walker clipboard
+- **Added**: `SUPER + .` → walker emoji picker
+
+**Custom Scripts:**
+- Audio device toggle script
+- Resolution toggle script (4K ↔ 1080p)
+
+### Waybar (`waybar/.config/waybar/`)
+
+#### `config.jsonc` Changes:
+
+**Workspace Configuration:**
+```json
+{
+  "persistent-workspaces": {
+    "DP-1": [1, 2, 3, 4, 5],      // Primary monitor
+    "HDMI-A-1": [6, 7, 8, 9, 10]  // Secondary monitor
+  }
+}
+```
+- **Reason**: Dual monitor setup with dedicated workspaces per screen
+- **Omarchy Default**: All workspaces on primary monitor
+
+**Update Intervals:**
+- **Changed**: System updates check from 21600s (6h) → 3600s (1h)
+- **Reason**: More frequent update notifications
+
+**Workspace Count:**
+- **Added**: Workspace 10 to config
+- **Omarchy Default**: 9 workspaces
+
+### Walker (`walker/.config/walker/`)
+
+#### `config.toml` Changes:
+
+**Theme:**
+```toml
+theme = "omarchy-menu"  # Custom Raycast-inspired theme
+additional_theme_location = "~/.local/share/omarchy/default/walker/themes/"
+```
+- **Note**: Still uses omarchy's theme files as a base
+- **Custom**: Our `omarchy-menu` script modifies walker invocation
+
+### Custom Binary: `omarchy-menu`
+
+**Location**: `~/.local/bin/omarchy-menu`
+
+**Purpose**: Wraps walker with custom theme
+
+**Original**: `/home/tmeister/.local/share/omarchy/bin/omarchy-menu`
+
+**Why Custom Version**:
+- Changes walker theme to `omarchy-menu` instead of default
+- Provides Raycast-like appearance
+- **Problem**: Gets overwritten during `omarchy-update`
+- **Solution**: Our version in `~/.local/bin` takes precedence (PATH priority)
+
+## Omarchy Files We Still Use
+
+Even though we override directories, we still **source** omarchy's defaults:
+
+### Hyprland Sources:
+From `hypr/.config/hypr/hyprland.conf`:
+```conf
+source = ~/.local/share/omarchy/default/hypr/autostart.conf
+source = ~/.local/share/omarchy/default/hypr/bindings/media.conf
+source = ~/.local/share/omarchy/default/hypr/bindings/tiling-v2.conf
+source = ~/.config/omarchy/current/theme/hyprland.conf
+```
+
+This allows us to:
+- ✅ Keep omarchy's media keys
+- ✅ Use omarchy's tiling logic
+- ✅ Use omarchy's theme system
+- ✅ Get omarchy's autostart apps
+- ✅ Override only what we want in our own `bindings.conf`
+
+## Post-Update Workflow
+
+When omarchy updates (`omarchy-update`):
+
+### What Happens:
+1. Omarchy pulls latest code
+2. Migration scripts run
+3. `~/.local/share/omarchy/config/` gets updated
+4. Omarchy attempts to copy configs to `~/.config/`
+
+### What's Protected:
+- ❌ Our symlinks **prevent** omarchy from overwriting `~/.config/hypr`, etc.
+- ✅ Our `~/.local/bin/omarchy-menu` takes precedence via PATH
+- ✅ Our configs remain intact
+- ⚠️ We **miss** new features in `~/.local/share/omarchy/config/`
+
+### What to Check After Updates:
+
+1. **Review changes in omarchy's config layer:**
+   ```bash
+   cd ~/.local/share/omarchy
+   git log --oneline -10  # See what changed
+   git show <commit> --stat  # Check specific changes
+   ```
+
+2. **Check if new defaults are useful:**
+   ```bash
+   diff ~/.local/share/omarchy/default/hypr/ ~/.config/hypr/
+   ```
+
+3. **Verify symlinks intact:**
+   ```bash
+   ls -la ~/.config | grep '\->'
+   ```
+
+4. **Test critical bindings:**
+   - Launcher (SUPER + SPACE)
+   - Terminal
+   - Screenshot
+
+## Tracking Customization Reasons
+
+### Why We Override Hyprland Bindings:
+1. **Vicinae launcher** - Better UX than walker-omarchy
+2. **75% keyboard** - No PRINT key available
+3. **Personal app stack** - Gmail, Claude, Inkdrop, DeepL
+4. **Workflow tools** - Walker clipboard/emoji integration
+5. **Multi-monitor** - Dual 4K setup requires custom config
+
+### Why We Override Waybar:
+1. **Dual monitor workspace** - Need persistent workspaces per screen
+2. **Update frequency** - Prefer more frequent update checks
+3. **Workspace count** - Need 10 workspaces (2 monitors × 5 each)
+
+### Why Custom Scripts:
+1. **omarchy-menu** - Raycast aesthetics > default walker theme
+2. **tmux-sessionizer** - ThePrimeagen workflow integration
+3. **Audio toggle** - Quick device switching
+4. **Resolution toggle** - Switch between 4K and 1080p
+
+## Helper Commands
+
+### Check what omarchy changed recently:
+```bash
+cd ~/.local/share/omarchy
+git log --oneline -20
+git show <commit-hash>
+```
+
+### Compare omarchy defaults vs our config:
+```bash
+diff -r ~/.local/share/omarchy/default/hypr/bindings/ ~/.config/hypr/bindings.conf
+```
+
+### List our active overrides:
+```bash
+ls -la ~/.config | grep '\->'
+```
+
+### Verify PATH precedence for scripts:
+```bash
+which omarchy-menu  # Should show ~/.local/bin/omarchy-menu
+```
+
+### Check omarchy's post-update hooks:
+```bash
+ls ~/.config/omarchy/hooks/
+```
+
+## Future Considerations
+
+### If Omarchy Adds New Features We Want:
+
+1. **For bindings/configs:**
+   - Review the change in `~/.local/share/omarchy/default/`
+   - Manually add to our dotfiles version
+   - Commit with note: `"Add omarchy feature: <description>"`
+
+2. **For themes:**
+   - We source omarchy's themes directly
+   - Should automatically get updates
+
+3. **For scripts:**
+   - Check if our custom version conflicts
+   - Merge if needed
+
+### If Our Overrides Break After Update:
+
+1. Check omarchy's changelog
+2. Review migration scripts in `~/.local/share/omarchy/migrations/`
+3. Update our dotfiles to match new omarchy structure
+4. Re-stow packages
+
+## Maintenance Checklist
+
+- [ ] After omarchy updates, review git log
+- [ ] Check if new default configs are useful
+- [ ] Verify symlinks still intact
+- [ ] Test launcher, terminal, screenshots
+- [ ] Merge useful omarchy improvements into dotfiles
+- [ ] Update this doc if new overrides added
+
+## Related Files
+
+- `MIGRATION.md` - Stow migration documentation
+- `README.md` - General dotfiles documentation
+- `.config/omarchy/hooks/post-update` - Post-update automation (if created)

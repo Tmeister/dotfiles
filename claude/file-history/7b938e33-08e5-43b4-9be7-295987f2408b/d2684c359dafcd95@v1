@@ -1,0 +1,17 @@
+# Ignore everything in claude folder
+claude/*
+factory/*
+# But don't ignore commands folder and .settings.json
+!claude/commands/
+!claude/commands/**
+!claude/agents/
+!claude/agents/**
+!claude/.settings.json
+!claude/CLAUDE.md
+!claude/my-preferences.md
+!claude/project-styles.md
+!claude/styles
+!claude/styles/**
+!claude/hooks
+!claude/hooks/**
+.DS_Store

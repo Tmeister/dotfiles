@@ -1,0 +1,185 @@
+#!/usr/bin/env bash
+#
+# Omarchy Post-Update Hook
+#
+# This script runs automatically after `omarchy-update` completes.
+# It verifies that our dotfiles overrides are still intact and
+# notifies us of any important changes in omarchy's configs.
+#
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}================================${NC}"
+echo -e "${BLUE}Omarchy Post-Update Verification${NC}"
+echo -e "${BLUE}================================${NC}"
+echo ""
+
+# Track if any issues found
+ISSUES_FOUND=0
+
+# 1. Verify critical symlinks are intact
+echo -e "${YELLOW}[1/5]${NC} Checking dotfiles symlinks..."
+
+EXPECTED_SYMLINKS=(
+    "$HOME/.config/hypr:$HOME/.dotfiles/hypr/.config/hypr"
+    "$HOME/.config/walker:$HOME/.dotfiles/walker/.config/walker"
+    "$HOME/.config/waybar:$HOME/.dotfiles/waybar/.config/waybar"
+    "$HOME/.config/nvim:$HOME/.dotfiles/nvim/.config/nvim"
+    "$HOME/.config/alacritty:$HOME/.dotfiles/alacritty/.config/alacritty"
+    "$HOME/.tmux.conf:$HOME/.dotfiles/tmux/.tmux.conf"
+    "$HOME/.zshrc:$HOME/.dotfiles/zsh/.zshrc"
+)
+
+for link_pair in "${EXPECTED_SYMLINKS[@]}"; do
+    link="${link_pair%%:*}"
+    target="${link_pair#*:}"
+
+    if [ -L "$link" ]; then
+        actual_target=$(readlink -f "$link")
+        expected_target=$(readlink -f "$target")
+
+        if [ "$actual_target" = "$expected_target" ]; then
+            echo -e "  ${GREEN}✓${NC} $(basename "$link") → dotfiles"
+        else
+            echo -e "  ${RED}✗${NC} $(basename "$link") points to wrong target!"
+            echo -e "    Expected: $expected_target"
+            echo -e "    Actual: $actual_target"
+            ISSUES_FOUND=$((ISSUES_FOUND + 1))
+        fi
+    else
+        echo -e "  ${RED}✗${NC} $(basename "$link") is not a symlink!"
+        ISSUES_FOUND=$((ISSUES_FOUND + 1))
+    fi
+done
+
+echo ""
+
+# 2. Verify custom scripts are available
+echo -e "${YELLOW}[2/5]${NC} Checking custom scripts..."
+
+CUSTOM_SCRIPTS=(
+    "tmux-sessionizer"
+    "omarchy-diff"
+    "omarchy-customizations"
+)
+
+for script in "${CUSTOM_SCRIPTS[@]}"; do
+    if command -v "$script" &> /dev/null; then
+        echo -e "  ${GREEN}✓${NC} $script available"
+    else
+        echo -e "  ${RED}✗${NC} $script not found in PATH"
+        ISSUES_FOUND=$((ISSUES_FOUND + 1))
+    fi
+done
+
+echo ""
+
+# 3. Check what changed in omarchy
+echo -e "${YELLOW}[3/6]${NC} Reviewing recent omarchy changes..."
+
+cd ~/.local/share/omarchy || exit 1
+
+# Get last 5 commits
+echo -e "  ${BLUE}Last 5 omarchy updates:${NC}"
+git log --oneline -5 --color=always | sed 's/^/    /'
+
+echo ""
+echo -e "  ${BLUE}Files changed in last update:${NC}"
+latest_commit=$(git log -1 --format=%H)
+git diff --name-only HEAD~1 HEAD 2>/dev/null | head -10 | sed 's/^/    /' || echo "    (No changes or first install)"
+
+echo ""
+
+# 4. Check for changes in files we care about
+echo -e "${YELLOW}[4/6]${NC} Checking for changes in sourced omarchy files..."
+
+FILES_WE_SOURCE=(
+    "default/hypr/autostart.conf"
+    "default/hypr/bindings/media.conf"
+    "default/hypr/bindings/tiling-v2.conf"
+)
+
+for file in "${FILES_WE_SOURCE[@]}"; do
+    if git diff --quiet HEAD~1 HEAD -- "$file" 2>/dev/null; then
+        echo -e "  ${GREEN}✓${NC} $file (unchanged)"
+    else
+        echo -e "  ${YELLOW}⚠${NC} $file was modified!"
+        echo -e "    ${BLUE}→ Review changes:${NC} cd ~/.local/share/omarchy && git diff HEAD~1 HEAD -- $file"
+        ISSUES_FOUND=$((ISSUES_FOUND + 1))
+    fi
+done
+
+echo ""
+
+# 5. Verify PATH configuration
+echo -e "${YELLOW}[5/6]${NC} Verifying PATH precedence..."
+
+if echo "$PATH" | grep -q "$HOME/.local/bin"; then
+    path_position=$(echo "$PATH" | tr ':' '\n' | grep -n "$HOME/.local/bin" | head -1 | cut -d: -f1)
+
+    if [ "$path_position" -le 3 ]; then
+        echo -e "  ${GREEN}✓${NC} ~/.local/bin is early in PATH (position $path_position)"
+    else
+        echo -e "  ${YELLOW}⚠${NC} ~/.local/bin is at position $path_position in PATH"
+        echo -e "    Consider moving it earlier for script precedence"
+    fi
+else
+    echo -e "  ${RED}✗${NC} ~/.local/bin not found in PATH!"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
+fi
+
+echo ""
+
+# 6. Re-seed hypr config overrides
+echo -e "${YELLOW}[6/6]${NC} Re-seeding Hyprland configuration..."
+
+if command -v omarchy-seed-config &> /dev/null; then
+    if omarchy-seed-config --check &>/dev/null; then
+        echo -e "  ${GREEN}✓${NC} Hypr overrides already seeded"
+    else
+        echo -e "  ${YELLOW}↻${NC} Re-seeding hypr config with overrides..."
+        if omarchy-seed-config &>/dev/null; then
+            echo -e "  ${GREEN}✓${NC} Hypr config re-seeded successfully"
+        else
+            echo -e "  ${RED}✗${NC} Failed to re-seed hypr config"
+            echo -e "    Run manually: omarchy-seed-config"
+            ISSUES_FOUND=$((ISSUES_FOUND + 1))
+        fi
+    fi
+else
+    echo -e "  ${YELLOW}⚠${NC} omarchy-seed-config not found in PATH"
+    echo -e "    Your hypr overrides may need manual re-seeding"
+fi
+
+echo ""
+echo -e "${BLUE}================================${NC}"
+
+# Summary
+if [ $ISSUES_FOUND -eq 0 ]; then
+    echo -e "${GREEN}✓ All checks passed!${NC}"
+    echo -e "Your dotfiles overrides are intact after omarchy update."
+else
+    echo -e "${YELLOW}⚠ Found $ISSUES_FOUND potential issue(s)${NC}"
+    echo -e "Review the output above and check ${BLUE}~/.dotfiles/OMARCHY.md${NC} for guidance."
+fi
+
+echo -e "${BLUE}================================${NC}"
+echo ""
+
+# Optional: Show notification if in graphical environment
+if command -v notify-send &> /dev/null && [ -n "$DISPLAY" ]; then
+    if [ $ISSUES_FOUND -eq 0 ]; then
+        notify-send "Omarchy Update" "✓ All dotfiles overrides intact" -u normal
+    else
+        notify-send "Omarchy Update" "⚠ Found $ISSUES_FOUND issue(s) - check terminal" -u critical
+    fi
+fi
+
+exit 0
