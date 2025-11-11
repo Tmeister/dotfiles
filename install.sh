@@ -57,7 +57,6 @@ PACKAGES=(
     "tmux:Tmux terminal multiplexer"
     "starship:Starship prompt"
     "ohmyposh:Oh My Posh prompt"
-    "claude:Claude Code configuration"
     "scripts:Custom scripts and omarchy hooks"
 )
 

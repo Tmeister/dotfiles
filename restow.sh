@@ -43,7 +43,6 @@ PACKAGES=(
     "tmux"
     "starship"
     "ohmyposh"
-    "claude"
     "scripts"
 )
 
