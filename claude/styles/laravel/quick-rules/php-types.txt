@@ -1,0 +1,6 @@
+?string not string|null
+void returns explicit
+Type properties, skip docblocks
+PascalCase enums
+Import classes in docblocks
+array<int, Object> for collections

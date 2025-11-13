@@ -12,13 +12,11 @@ source = ~/.local/share/omarchy/default/hypr/input.conf
 source = ~/.local/share/omarchy/default/hypr/windows.conf
 source = ~/.config/omarchy/current/theme/hyprland.conf
 
-# DOTFILES OVERRIDES - Managed by omarchy-seed-config
-# These overrides are sourced AFTER omarchy defaults, so they take precedence
-# They are managed by your dotfiles and protected from omarchy updates
-source = ~/.config/hypr/overrides/bindings.conf
-source = ~/.config/hypr/overrides/monitors.conf
-source = ~/.config/hypr/overrides/workspaces.conf
-source = ~/.config/hypr/overrides/windows.conf
-source = ~/.config/hypr/overrides/input.conf
-source = ~/.config/hypr/overrides/envs.conf
-source = ~/.config/hypr/overrides/autostart.conf
+# Change your own setup in these files (and overwrite any settings from defaults!)
+source = ~/.config/hypr/monitors.conf
+source = ~/.config/hypr/workspaces.conf
+source = ~/.config/hypr/input.conf
+source = ~/.config/hypr/bindings.conf
+source = ~/.config/hypr/envs.conf
+source = ~/.config/hypr/autostart.conf
+source = ~/.config/hypr/windows.conf

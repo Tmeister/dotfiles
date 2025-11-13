@@ -1,0 +1,6 @@
+Early returns, no else
+Unhappy path first
+Separate if statements over compound
+Each trait own line
+String interpolation
+Array validation notation
