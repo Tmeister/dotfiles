@@ -9,6 +9,9 @@
 
 set -e
 
+# Ensure ~/.local/bin is in PATH for script detection
+export PATH="$HOME/.local/bin:$PATH"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -27,14 +30,19 @@ ISSUES_FOUND=0
 # 1. Verify critical symlinks are intact
 echo -e "${YELLOW}[1/5]${NC} Checking dotfiles symlinks..."
 
+# Symlinks with exact path matching
 EXPECTED_SYMLINKS=(
     "$HOME/.config/hypr:$HOME/.dotfiles/hypr/.config/hypr"
     "$HOME/.config/walker:$HOME/.dotfiles/walker/.config/walker"
-    "$HOME/.config/waybar:$HOME/.dotfiles/waybar/.config/waybar"
     "$HOME/.config/nvim:$HOME/.dotfiles/nvim/.config/nvim"
     "$HOME/.config/alacritty:$HOME/.dotfiles/alacritty/.config/alacritty"
     "$HOME/.tmux.conf:$HOME/.dotfiles/tmux/.tmux.conf"
     "$HOME/.zshrc:$HOME/.dotfiles/zsh/.zshrc"
+)
+
+# Symlinks with prefix matching (allows themed configs)
+PREFIX_SYMLINKS=(
+    "$HOME/.config/waybar:$HOME/.dotfiles/waybar/"
 )
 
 for link_pair in "${EXPECTED_SYMLINKS[@]}"; do
@@ -50,6 +58,29 @@ for link_pair in "${EXPECTED_SYMLINKS[@]}"; do
         else
             echo -e "  ${RED}✗${NC} $(basename "$link") points to wrong target!"
             echo -e "    Expected: $expected_target"
+            echo -e "    Actual: $actual_target"
+            ISSUES_FOUND=$((ISSUES_FOUND + 1))
+        fi
+    else
+        echo -e "  ${RED}✗${NC} $(basename "$link") is not a symlink!"
+        ISSUES_FOUND=$((ISSUES_FOUND + 1))
+    fi
+done
+
+# Check prefix-matched symlinks (e.g., waybar themes)
+for link_pair in "${PREFIX_SYMLINKS[@]}"; do
+    link="${link_pair%%:*}"
+    prefix="${link_pair#*:}"
+
+    if [ -L "$link" ]; then
+        actual_target=$(readlink -f "$link")
+
+        if [[ "$actual_target" == "$prefix"* ]]; then
+            theme_name=$(basename "$actual_target")
+            echo -e "  ${GREEN}✓${NC} $(basename "$link") → dotfiles ($theme_name)"
+        else
+            echo -e "  ${RED}✗${NC} $(basename "$link") points outside dotfiles!"
+            echo -e "    Expected prefix: $prefix"
             echo -e "    Actual: $actual_target"
             ISSUES_FOUND=$((ISSUES_FOUND + 1))
         fi
