@@ -41,6 +41,10 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.json)"
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
+# Bracketed paste mode - prevents pasted newlines from executing immediately
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
 HISTSIZE=10000
 HISTFILE=~/.zsh_history
 HISTDUP=erase
@@ -70,6 +74,7 @@ alias nah!="git reset --hard HEAD"
 alias lg="lazygit"
 alias ndots="nvim ~/.dotfiles"
 alias dots="cd ~/.dotfiles"
+alias launch="vicinae server &"
 
 # Git 
 alias gcq="git checkout qa"

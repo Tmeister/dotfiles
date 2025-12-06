@@ -28,6 +28,8 @@ claude/history.jsonl
 *.om
 .dotfiles-backup-*
 
+hypr/.config/hypr/shaders/
+
 # Editor
 .vscode/
 .idea/
