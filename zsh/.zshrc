@@ -22,7 +22,6 @@ zinit light zsh-users/zsh-completions
 autoload -U compinit && compinit
 
 ## General plugins
-zinit light Aloxaf/fzf-tab
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 
@@ -31,8 +30,6 @@ zinit snippet OMZP::git
 zinit snippet OMZP::archlinux
 zinit snippet OMZP::composer
 zinit snippet OMZP::eza
-
-zinit cdreplay -q
 
 # Oh My Posh - Prompt
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.json)"
@@ -59,8 +56,7 @@ setopt hist_find_no_dups
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' menu no
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':completion:*' menu select
 
 # aliases
 alias c="clear"
@@ -127,3 +123,6 @@ export PATH=$HOME/.local/bin:$PATH
 
 # Source git aliases
 [ -f ~/.config/zsh/git-aliases.zsh ] && source ~/.config/zsh/git-aliases.zsh
+
+# Zoxide - smarter cd command
+eval "$(zoxide init zsh --cmd cd)"
