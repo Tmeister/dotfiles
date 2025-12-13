@@ -30,6 +30,11 @@ claude/history.jsonl
 
 hypr/.config/hypr/shaders/
 
+# OpenCode - ignore everything except command folder
+opencode/.config/opencode/*
+!opencode/.config/opencode/command/
+!opencode/.config/opencode/command/**
+
 # Editor
 .vscode/
 .idea/
