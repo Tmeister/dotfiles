@@ -51,6 +51,7 @@ PACKAGES=(
     "hypr:Hyprland window manager (omarchy override)"
     "walker:Walker launcher (omarchy override)"
     "waybar:Waybar status bar (omarchy override)"
+    "mako:Mako notifications (macOS-style design)"
     "nvim:Neovim configuration (omarchy override)"
     "alacritty:Alacritty terminal"
     "ghostty:Ghostty terminal"

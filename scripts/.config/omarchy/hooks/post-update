@@ -36,6 +36,7 @@ EXPECTED_SYMLINKS=(
     "$HOME/.config/walker:$HOME/.dotfiles/walker/.config/walker"
     "$HOME/.config/nvim:$HOME/.dotfiles/nvim/.config/nvim"
     "$HOME/.config/alacritty:$HOME/.dotfiles/alacritty/.config/alacritty"
+    "$HOME/.config/mako/config:$HOME/.dotfiles/mako/.config/mako/config"
     "$HOME/.tmux.conf:$HOME/.dotfiles/tmux/.tmux.conf"
     "$HOME/.zshrc:$HOME/.dotfiles/zsh/.zshrc"
 )

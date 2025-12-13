@@ -37,6 +37,7 @@ PACKAGES=(
     "hypr"
     "walker"
     "waybar"
+    "mako"
     "nvim"
     "alacritty"
     "ghostty"

@@ -38,6 +38,7 @@ We use **complete directory replacement** via symlinks. Instead of modifying oma
 | Hyprland | `~/.dotfiles/hypr/.config/hypr/` | `~/.config/hypr` | Complete |
 | Walker | `~/.dotfiles/walker/.config/walker/` | `~/.config/walker` | Complete |
 | Waybar | `~/.dotfiles/waybar/.config/waybar/` | `~/.config/waybar` | Complete |
+| Mako | `~/.dotfiles/mako/.config/mako/` | `~/.config/mako/config` | File |
 | Neovim | `~/.dotfiles/nvim/.config/nvim/` | `~/.config/nvim` | Complete |
 
 ### Custom Scripts
@@ -121,6 +122,37 @@ We use **complete directory replacement** via symlinks. Instead of modifying oma
 ### Walker (`walker/.config/walker/`)
 
 Uses omarchy's default walker configuration and themes.
+
+### Mako (`mako/.config/mako/`)
+
+Custom notification styling with macOS-inspired design while preserving Omarchy's theme system.
+
+#### How It Works:
+The config uses `include=` directives to layer configurations:
+1. **First**: Omarchy's `core.ini` (notification rules, Spotify/DND handling)
+2. **Second**: Current theme's `mako.ini` (colors from active theme)
+3. **Third**: Our design overrides (applied last, take precedence)
+
+#### Design Changes:
+| Setting | Omarchy Default | Our Override | Reason |
+|---------|-----------------|--------------|--------|
+| `border-radius` | 0 | 12 | macOS-style rounded corners |
+| `border-size` | 2 | 1 | Minimal border |
+| `padding` | 10,15 | 12,18 | More comfortable spacing |
+| `width` | 420 | 380 | Slightly narrower |
+| `font` | sans-serif 14px | sans-serif 13px | Slightly smaller |
+| `max-icon-size` | 32 | 48 | Larger icons |
+| `icon-border-radius` | 0 | 8 | Rounded icon corners |
+
+#### Theme Compatibility:
+- Colors automatically update when you run `omarchy-theme-set <theme>`
+- The include directive reads from `~/.config/omarchy/current/theme/mako.ini`
+- This symlink is updated by Omarchy's theme switcher
+
+#### Protected From Updates:
+- `omarchy-update` does not touch `~/.config/mako/config`
+- Only `omarchy-reinstall` would overwrite (requires confirmation)
+- Post-update hook verifies the symlink is intact
 
 ## Omarchy Files We Still Use
 
