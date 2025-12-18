@@ -1,11 +1,10 @@
-@define-color base-bg @background;
-@define-color accent @foreground;
+/* macOS-style Waybar - Flat design */
 @import "../omarchy/current/theme/waybar.css";
 
-@define-color hover-bg alpha(@background, 0.7);
+@define-color bar-bg alpha(@background, 0.85);
+@define-color hover-bg alpha(white, 0.1);
 @define-color warning #e5c07b;
 @define-color critical #e06c75;
-@define-color inactive #6a7a71;
 
 * {
   color: @foreground;
@@ -14,161 +13,147 @@
   font-family: 'System Font';
   font-size: 13px;
   min-height: 0;
+  padding: 0;
+  margin: 0;
 }
 
+/* Main bar - semi-transparent background, flush to top */
 window#waybar {
-  background: transparent;
-  margin-top: 10px;
+  background: @bar-bg;
 }
 
+/* Module containers */
 .modules-left,
+.modules-center,
 .modules-right {
-  margin-left: 8px; /* Original margin + 2px */
-  margin-right: 8px; /* Original margin + 2px */
+  padding: 0 8px;
 }
+
+/* --- Base Module Styles - Flat, no backgrounds --- */
+#custom-omarchy,
+#workspaces,
+#window,
+#clock,
+#custom-update,
+#custom-screenrecording-indicator,
+#mpris,
+#tray,
+#backlight,
+#network,
+#bluetooth,
+#pulseaudio,
+#cpu,
+#memory,
+#temperature,
+#battery {
+  background: transparent;
+  padding: 4px 10px;
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Hover effect - subtle highlight */
+#custom-omarchy:hover,
+#clock:hover,
+#custom-update:hover,
+#mpris:hover,
+#backlight:hover,
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover,
+#cpu:hover,
+#memory:hover,
+#battery:hover,
+#custom-screenrecording-indicator:hover {
+  background: @hover-bg;
+}
+
+/* --- Workspaces --- */
+#workspaces {
+  padding: 0 4px;
+}
+
 #workspaces button {
   all: initial;
-  padding: 0 6px;
-  margin: 0 1.5px;
+  color: @foreground;
+  padding: 4px 6px;
+  margin: 0 1px;
   min-width: 9px;
-  background: #ffff00;
+  background: transparent;
+  border-radius: 0;
+}
+
+#workspaces button:hover {
+  background: @hover-bg;
+}
+
+#workspaces button.active {
+  color: @foreground;
+  font-weight: bold;
 }
 
 #workspaces button.empty {
   opacity: 0.5;
 }
 
-/* --- General Module Styles --- */
-#backlight,
-#window,
-#mpris,
-#cpu,
-#memory,
-#temperature,
-#custom-update,
-#tray,
-#bluetooth,
-#network,
-#pulseaudio,
-#battery,
-#custom-omarchy,
-#custom-screenrecording-indicator,
-#clock {
-  background-color: @background;
-  color: @foreground;
-  padding: 0 10px;
-  margin: 5px 0;
-  transition: background-color 0.3s ease;
-}
-
-#clock:hover,
-#mpris:hover,
-#cpu:hover,
-#memory:hover,
-#temperature:hover,
-#custom-update:hover,
-#bluetooth:hover,
-#network:hover,
-#pulseaudio:hover,
-#battery:hover,
-#custom-screenrecording-indicator:hover,
-#custom-omarchy:hover {
-  background-color: @hover-bg;
-}
-
-/* --- Specific Module Styles & Overrides --- */
-
-#custom-screenrecording-indicator {
-  border-radius: 16px;
-  min-width: 12px;
-  margin-left: 8.75px;
-  font-size: 11px;
-
-  padding: 0 11 0 10;
-}
-
-#custom-screenrecording-indicator.active {
-  color: #a55555;
-}
-
+/* --- Window Title --- */
 #window {
-  margin: 5px 0;
-  padding: 0 10px;
-  border-radius: 16px;
-  margin-left: 5px;
-}
-
-#mpris {
-  margin: 5px 0;
-  padding: 0 10px;
-  border-radius: 16px;
-  margin-right: 5px;
+  padding: 2px 10px 6px 10px;
+  font-size: 11px;
 }
 
 window#waybar.empty #window {
-  background: transparent;
   padding: 0;
-  margin-left: 0;
+  margin: 0;
+}
+
+/* --- Clock --- */
+#clock {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+/* --- Mpris (Now Playing) --- */
+#mpris {
+  padding: 4px 10px;
 }
 
 mpris#waybar.empty #mpris {
+  padding: 0;
+  margin: 0;
+}
+
+/* --- Tray Expander Group --- */
+#tray-expander {
   background: transparent;
   padding: 0;
-  margin-right: 0;
+  margin: 0;
 }
 
-#custom-update {
-  border-radius: 16px;
-  margin-left: 10px;
-  padding-right: 12px;
+#custom-expand-icon {
+  padding: 4px 6px;
 }
 
-#tray-expander {
-  background: @background;
-  margin: 5px 0;
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
-  padding-left: 10px;
-}
-
-#battery {
-  margin: 5px 0;
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
-  padding-left: 10px;
+#custom-expand-icon:hover {
+  background: @hover-bg;
 }
 
 #tray {
-  padding-left: 10px;
+  padding: 4px 6px;
 }
 
-#custom-omarchy {
-  border-radius: 16px;
-  margin-right: 5px;
+/* --- Screen Recording Indicator --- */
+#custom-screenrecording-indicator {
+  padding: 4px 10px;
 }
 
-#clock {
-  border-radius: 16px;
-  padding-right: 10px;
+#custom-screenrecording-indicator.active {
+  color: #e06c75;
 }
 
-#workspaces {
-  background-color: @background;
-  color: @foreground;
-  margin: 5px 0;
-  transition: background-color 0.3s ease;
-  border-radius: 16px;
-  padding: 0 3px;
-}
-
-#workspaces button {
-  background: transparent;
-  padding: 0 6px;
-  border-radius: 10px;
-}
-
-#workspaces button:hover {
-  background-color: alpha(#b9f6ca, 0.1);
+/* --- Update Indicator --- */
+#custom-update {
+  padding: 4px 10px;
 }
 
 /* --- Module States --- */
@@ -184,19 +169,19 @@ mpris#waybar.empty #mpris {
 
 #battery.charging,
 #battery.plugged {
-  color: @accent;
+  color: @foreground;
 }
 
 @keyframes blink {
   to {
-    background-color: @critical;
-    color: @base-bg;
+    background: @critical;
+    color: @background;
   }
 }
 
 #battery.critical:not(.charging) {
-  background-color: @critical;
-  color: @base-bg;
+  background: @critical;
+  color: @background;
   animation-name: blink;
   animation-duration: 0.5s;
   animation-timing-function: linear;
@@ -206,10 +191,10 @@ mpris#waybar.empty #mpris {
 
 /* --- Tooltip --- */
 tooltip {
-  background-color: @background;
-  border-radius: 16px;
+  background: @background;
+  border-radius: 0;
   padding: 8px 12px;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 tooltip label {
