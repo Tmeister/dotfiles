@@ -1,0 +1,74 @@
+#!/bin/bash
+#
+# font-set hook - Restore UI fonts after Omarchy font change
+#
+# This hook runs after omarchy-font-set changes fonts.
+# It restores UI elements to San Francisco (System Font) while
+# allowing the terminal font change to persist.
+#
+# Managed by dotfiles - see ~/.dotfiles/scripts/.config/omarchy/hooks/
+#
+
+UI_FONT="System Font"
+UI_FONT_SIZE=11
+WAYBAR_SIZE="13px"
+MAKO_SIZE="14px"
+SWAYOSD_SIZE="12pt"
+
+# The terminal font that was just set by omarchy
+TERMINAL_FONT="$1"
+
+# 1. Restore Waybar font
+if [[ -f ~/.config/waybar/style.css ]]; then
+    sed -i "s/font-family: '[^']*'/font-family: '$UI_FONT'/" ~/.config/waybar/style.css
+fi
+
+# 2. Restore SwayOSD font
+if [[ -f ~/.config/swayosd/style.css ]]; then
+    sed -i "s/font-family: '[^']*'/font-family: '$UI_FONT'/" ~/.config/swayosd/style.css
+fi
+
+# 3. Restore Hyprlock font
+if [[ -f ~/.config/hypr/hyprlock.conf ]]; then
+    sed -i "s/font_family = .*/font_family = $UI_FONT/" ~/.config/hypr/hyprlock.conf
+fi
+
+# 4. Restore Mako font
+if [[ -f ~/.config/mako/config ]]; then
+    sed -i "s/^font=.*/font=$UI_FONT $MAKO_SIZE/" ~/.config/mako/config
+fi
+
+# 5. Restore fontconfig sans-serif aliases (leave monospace for terminal)
+if [[ -f ~/.config/fontconfig/fonts.conf ]]; then
+    # Update sans-serif
+    xmlstarlet ed -L \
+        -u '//match[@target="pattern"][test/string="sans-serif"]/edit[@name="family"]/string' \
+        -v "$UI_FONT" \
+        ~/.config/fontconfig/fonts.conf 2>/dev/null || true
+
+    # Update system-ui alias
+    xmlstarlet ed -L \
+        -u '//alias[family="system-ui"]/prefer/family' \
+        -v "$UI_FONT" \
+        ~/.config/fontconfig/fonts.conf 2>/dev/null || true
+
+    # Update -apple-system alias
+    xmlstarlet ed -L \
+        -u '//alias[family="-apple-system"]/prefer/family' \
+        -v "$UI_FONT" \
+        ~/.config/fontconfig/fonts.conf 2>/dev/null || true
+
+    # Update BlinkMacSystemFont alias
+    xmlstarlet ed -L \
+        -u '//alias[family="BlinkMacSystemFont"]/prefer/family' \
+        -v "$UI_FONT" \
+        ~/.config/fontconfig/fonts.conf 2>/dev/null || true
+fi
+
+# 6. Restart services
+omarchy-restart-waybar 2>/dev/null || true
+omarchy-restart-swayosd 2>/dev/null || true
+pkill mako 2>/dev/null; mako &>/dev/null &
+
+# 7. Notify user
+notify-send "UI Font Restored" "Terminal: $TERMINAL_FONT\nUI: $UI_FONT (San Francisco)"

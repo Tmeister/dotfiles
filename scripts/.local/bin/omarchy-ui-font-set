@@ -1,0 +1,195 @@
+#!/bin/bash
+#
+# omarchy-ui-font-set - Set UI font across the system (excluding terminal)
+#
+# Usage: omarchy-ui-font-set <font-name> [size]
+#        omarchy-ui-font-set --list
+#        omarchy-ui-font-set --current
+#
+# Examples:
+#   omarchy-ui-font-set "System Font" 11
+#   omarchy-ui-font-set "Inter" 10
+#   omarchy-ui-font-set "Adwaita Sans" 10
+#
+
+set -e
+
+FONT_NAME="$1"
+FONT_SIZE="${2:-11}"
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+show_help() {
+    echo "Usage: omarchy-ui-font-set <font-name> [size]"
+    echo ""
+    echo "Options:"
+    echo "  --list     List available UI fonts"
+    echo "  --current  Show current UI font"
+    echo "  --help     Show this help"
+    echo ""
+    echo "Examples:"
+    echo "  omarchy-ui-font-set \"System Font\" 11"
+    echo "  omarchy-ui-font-set \"Inter\" 10"
+    echo "  omarchy-ui-font-set \"Adwaita Sans\" 10"
+    echo ""
+    echo "This script updates:"
+    echo "  - GTK 2/3/4 settings"
+    echo "  - Waybar"
+    echo "  - Hyprlock"
+    echo "  - Mako notifications"
+    echo "  - SwayOSD"
+    echo "  - fontconfig (sans-serif, system-ui, -apple-system)"
+    echo ""
+    echo "Terminal fonts are NOT changed."
+}
+
+show_current() {
+    echo "Current UI font settings:"
+    echo ""
+    echo -e "${YELLOW}GTK:${NC}"
+    grep "gtk-font-name" ~/.config/gtk-3.0/settings.ini 2>/dev/null || echo "  Not set"
+    echo ""
+    echo -e "${YELLOW}Waybar:${NC}"
+    grep "font-family" ~/.config/waybar/style.css 2>/dev/null | head -1 | sed 's/^/  /'
+    echo ""
+    echo -e "${YELLOW}Hyprlock:${NC}"
+    grep "font_family" ~/.config/hypr/hyprlock.conf 2>/dev/null | grep -v "font_color" | sed 's/^/  /'
+    echo ""
+    echo -e "${YELLOW}Mako:${NC}"
+    grep "^font=" ~/.config/mako/config 2>/dev/null | sed 's/^/  /'
+    echo ""
+    echo -e "${YELLOW}SwayOSD:${NC}"
+    grep "font-family" ~/.config/swayosd/style.css 2>/dev/null | sed 's/^/  /'
+    echo ""
+    echo -e "${YELLOW}fontconfig sans-serif:${NC}"
+    fc-match sans-serif 2>/dev/null | sed 's/^/  /'
+}
+
+list_fonts() {
+    echo "Available UI fonts (non-monospace):"
+    echo ""
+    fc-list -f "%{family[0]}\n" | grep -v -i -E 'emoji|signwriting|omarchy|symbol|dingbat|icon|mono|nerd|console|fixed|courier|terminal' | sort -u | head -50
+    echo ""
+    echo "(showing first 50, use 'fc-list' for full list)"
+}
+
+# Handle options
+case "$FONT_NAME" in
+    --help|-h|"")
+        show_help
+        exit 0
+        ;;
+    --list)
+        list_fonts
+        exit 0
+        ;;
+    --current)
+        show_current
+        exit 0
+        ;;
+esac
+
+# Validate font exists
+if ! fc-list | grep -qi "$FONT_NAME"; then
+    echo -e "${RED}Error: Font '$FONT_NAME' not found.${NC}"
+    echo ""
+    echo "Use 'omarchy-ui-font-set --list' to see available fonts."
+    exit 1
+fi
+
+echo -e "${GREEN}Setting UI font to '$FONT_NAME' at size $FONT_SIZE...${NC}"
+echo ""
+
+# Calculate sizes for different contexts
+GTK_SIZE="$FONT_SIZE"
+WAYBAR_SIZE="$((FONT_SIZE + 2))px"
+MAKO_SIZE="$((FONT_SIZE + 3))px"
+SWAYOSD_SIZE="$((FONT_SIZE + 1))pt"
+
+# 1. Update GTK settings
+echo "Updating GTK settings..."
+if [[ -f ~/.config/gtk-3.0/settings.ini ]]; then
+    sed -i "s/gtk-font-name=.*/gtk-font-name=$FONT_NAME $GTK_SIZE/" ~/.config/gtk-3.0/settings.ini
+fi
+if [[ -f ~/.config/gtk-4.0/settings.ini ]]; then
+    sed -i "s/gtk-font-name=.*/gtk-font-name=$FONT_NAME $GTK_SIZE/" ~/.config/gtk-4.0/settings.ini
+fi
+if [[ -f ~/.gtkrc-2.0 ]]; then
+    sed -i "s/gtk-font-name=.*/gtk-font-name=\"$FONT_NAME $GTK_SIZE\"/" ~/.gtkrc-2.0
+fi
+
+# 2. Update Waybar
+echo "Updating Waybar..."
+if [[ -f ~/.config/waybar/style.css ]]; then
+    sed -i "s/font-family: '[^']*'/font-family: '$FONT_NAME'/" ~/.config/waybar/style.css
+    sed -i "s/font-size: [0-9]*px/font-size: $WAYBAR_SIZE/" ~/.config/waybar/style.css
+fi
+
+# 3. Update Hyprlock
+echo "Updating Hyprlock..."
+if [[ -f ~/.config/hypr/hyprlock.conf ]]; then
+    sed -i "s/font_family = .*/font_family = $FONT_NAME/" ~/.config/hypr/hyprlock.conf
+fi
+
+# 4. Update Mako
+echo "Updating Mako..."
+if [[ -f ~/.config/mako/config ]]; then
+    sed -i "s/^font=.*/font=$FONT_NAME $MAKO_SIZE/" ~/.config/mako/config
+fi
+
+# 5. Update SwayOSD
+echo "Updating SwayOSD..."
+if [[ -f ~/.config/swayosd/style.css ]]; then
+    sed -i "s/font-family: '[^']*'/font-family: '$FONT_NAME'/" ~/.config/swayosd/style.css
+    sed -i "s/font-size: [0-9]*pt/font-size: $SWAYOSD_SIZE/" ~/.config/swayosd/style.css
+fi
+
+# 6. Update fontconfig
+echo "Updating fontconfig..."
+if [[ -f ~/.config/fontconfig/fonts.conf ]]; then
+    # Update sans-serif
+    xmlstarlet ed -L \
+        -u '//match[@target="pattern"][test/string="sans-serif"]/edit[@name="family"]/string' \
+        -v "$FONT_NAME" \
+        ~/.config/fontconfig/fonts.conf 2>/dev/null || true
+    
+    # Update system-ui alias
+    xmlstarlet ed -L \
+        -u '//alias[family="system-ui"]/prefer/family' \
+        -v "$FONT_NAME" \
+        ~/.config/fontconfig/fonts.conf 2>/dev/null || true
+    
+    # Update -apple-system alias
+    xmlstarlet ed -L \
+        -u '//alias[family="-apple-system"]/prefer/family' \
+        -v "$FONT_NAME" \
+        ~/.config/fontconfig/fonts.conf 2>/dev/null || true
+    
+    # Update BlinkMacSystemFont alias
+    xmlstarlet ed -L \
+        -u '//alias[family="BlinkMacSystemFont"]/prefer/family' \
+        -v "$FONT_NAME" \
+        ~/.config/fontconfig/fonts.conf 2>/dev/null || true
+fi
+
+# Refresh font cache
+echo "Refreshing font cache..."
+fc-cache -f
+
+# Restart services
+echo "Restarting services..."
+omarchy-restart-waybar 2>/dev/null || true
+omarchy-restart-swayosd 2>/dev/null || true
+pkill mako 2>/dev/null; mako &>/dev/null &
+
+echo ""
+echo -e "${GREEN}Done! UI font set to '$FONT_NAME' at size $FONT_SIZE.${NC}"
+echo ""
+echo "Notes:"
+echo "  - GTK apps may need to be restarted to see changes"
+echo "  - Hyprlock changes will apply on next lock"
+echo "  - Run 'omarchy-ui-font-set --current' to verify"

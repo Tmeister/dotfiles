@@ -40,7 +40,7 @@ anchor=top-right
 outer-margin=16
 
 # Clean, readable font
-font=sans-serif 13px
+font=System Font 14px
 
 # Icon styling
 icons=1
