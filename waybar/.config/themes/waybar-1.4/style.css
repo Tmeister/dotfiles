@@ -11,7 +11,7 @@
   color: @foreground;
   border: none;
   border-radius: 0;
-  font-family: "CaskaydiaMono Nerd Font";
+  font-family: 'JetBrainsMono Nerd Font Mono';
   font-size: 12px;
   min-height: 0;
 }
