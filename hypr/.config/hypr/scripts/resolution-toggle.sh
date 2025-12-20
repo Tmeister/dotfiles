@@ -38,8 +38,8 @@ hyprctl keyword monitor DP-1,3840x2160@60,0x0,$NEXT_SCALE
 # Brief pause for Hyprland to process the scale change
 sleep 0.1
 
-# Re-enable HDMI at the correct position
-hyprctl keyword monitor HDMI-A-1,1920x1080@60,0x${HDMI_Y},1.0
+# Re-enable HDMI at the correct position (1600x900 for larger text on 13" display)
+hyprctl keyword monitor HDMI-A-1,1600x900@60,0x${HDMI_Y},1.0
 
 # Update GDK scale
 hyprctl keyword env GDK_SCALE,$GDK_VALUE

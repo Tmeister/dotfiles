@@ -4,7 +4,7 @@ general.import = ["~/.config/omarchy/current/theme/alacritty.toml"]
 TERM = "xterm-256color"
 
 [font]
-size = 11
+size = 9
 
 [font.normal]
 family = "JetBrainsMono Nerd Font"
@@ -39,8 +39,8 @@ opacity = 0.975
 [keyboard]
 bindings = [
   { key = "F11", action = "ToggleFullscreen" },
-{ key = "Insert", mods = "Shift", action = "Paste" },
-{ key = "Insert", mods = "Control", action = "Copy" },
+  { key = "Insert", mods = "Shift", action = "Paste" },
+  { key = "Insert", mods = "Control", action = "Copy" },
 
   # Navigation keybindings (migrated from Ghostty - Linux version)
   { key = "Right", mods = "Control", chars = "\u0005" }, # Ctrl+E (end of line)
